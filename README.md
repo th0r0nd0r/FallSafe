@@ -17,7 +17,7 @@ If a climber falls while leading, the length of the fall will equal twice the di
 
 ![fall-factor](https://camo.githubusercontent.com/de19d9566ae69629f69dcc66dad91f1186333971/68747470733a2f2f7777772e726f7065626f6f6b2e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031362f31312f66662d6c6561642d636c696d62696e672e6a7067)
 
-Depending on a complex system of variables (e.g. fall distance, climber mass, fall factor, rope elasticity), such a fall can put large amounts of force on a climber's protection.
+Depending on several variables (e.g. fall distance, climber mass, fall factor, rope elasticity), such a fall can put large amounts of force on a climber's protection.
 
 FallSafe is a tool for modeling the fall forces involved in different climbing fall scenarios, and testing those forces against strength ratings for climbing protection.
 
