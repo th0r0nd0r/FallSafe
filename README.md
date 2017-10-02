@@ -88,10 +88,12 @@ The project will contain 4 scripts, connected to a Webpack entry file:
 
 ## Sources
 
-Force Equations:
+#### Force Equations:
 https://ocw.mit.edu/courses/experimental-study-group/es-255-physics-of-rock-climbing-spring-2006/lecture-notes/MITES_255S06_rope_behav.pdf
+
 http://www.rockclimbing.com/cgi-bin/forum/gforum.cgi?do=post_attachment;postatt_id=746
 
-Gear Rating Examples:
+#### Gear Rating Examples:
 http://blackdiamondequipment.com/en/climbing-cams-stoppers-nuts-hexes/camalottm-BD2621200000ALL1.html
+
 http://blackdiamondequipment.com/en/climbing-cams-stoppers-nuts-hexes/stoppers-BD2252010000ALL1.html
