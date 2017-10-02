@@ -33,10 +33,13 @@ Users will be able to:
   - strength rating of protection (in kN)
 - select from a variety of different real-world, commercially-available cams, nuts, and bolts to test with
 
-
+The tool will also include:
+- An about modal to explain the background and functionality
 
 
 ## Wireframes
+
+![wireframe](https://user-images.githubusercontent.com/29419913/31066439-d275245c-a701-11e7-9e16-bbd4038d1025.png)
 
 ## Architecture and Technologies
 
