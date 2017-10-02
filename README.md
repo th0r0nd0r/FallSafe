@@ -7,7 +7,7 @@ Rock climbing is a diverse sport with many distinct disciplines.  In the sport a
 The leader is tied into one end of the rope, and he or she clips the rope through protection lodged in the rock along the way up.  
 Climbers use a mix of fixed, drilled bolts, and clean protection (nuts, cams, and hexes) brought up from the base to protect a climb.
 
-Fig 1. Sport climber ascending, clipping to bolts drilled in the stone.
+Fig 1. Sport climber ascending, clipping to bolts drilled into the stone.
 ![sport](https://user-images.githubusercontent.com/29419913/31064710-cd25db62-a6f3-11e7-965c-ba83a45ee94a.jpg)
 
 Fig 2. A climbing cam placed inside a crack.
@@ -96,7 +96,7 @@ https://ocw.mit.edu/courses/experimental-study-group/es-255-physics-of-rock-clim
 
 http://www.rockclimbing.com/cgi-bin/forum/gforum.cgi?do=post_attachment;postatt_id=746
 
-#### Gear Rating Examples:
+#### Gear Strength Rating Examples:
 http://blackdiamondequipment.com/en/climbing-cams-stoppers-nuts-hexes/camalottm-BD2621200000ALL1.html
 
 http://blackdiamondequipment.com/en/climbing-cams-stoppers-nuts-hexes/stoppers-BD2252010000ALL1.html
