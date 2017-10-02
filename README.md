@@ -19,12 +19,77 @@ If a climber falls while leading, the length of the fall will equal twice the di
 
 Depending on a complex system of variables (e.g. fall distance, climber mass, fall factor, rope elasticity), such a fall can put large amounts of force on a climber's protection.
 
-FallSafe is a tool for modeling the force of a climbing fall and testing that force against the published strength ratings for climbing protection.
+FallSafe is a tool for modeling the fall forces involved in different climbing fall scenarios, and testing those forces against strength ratings for climbing protection.
 
 ## Functionality and MVPs
+
+Users will be able to:
+
+- click to render a visual representation of a simulated climbing fall
+- adjust variables, including:
+  - climber mass
+  - distance from belayer
+  - distance to last piece of protection
+  - strength rating of protection (in kN)
+- select from a variety of different real-world, commercially-available cams, nuts, and bolts to test with
+
 
 ## Wireframes
 
 ## Architecture and Technologies
 
+FallSafe will utilize the following technologies:
+- vanilla javascript for the physics engine
+- `HTML5 Canvas` for rendering and DOM manipulation
+- Webpack for bundling the project's scripts
+
+The project will contain 4 scripts, connected to a Webpack entry file:
+
+- `animation.js`: this will contain the code for updating and rendering the DOM with Canvas
+- `climber.js`: will contain the climber object and associated functions
+- `rope.js`: will contain the logic for the dynamic rope
+- `protection.js`: will contain the code for the variable protection object
+
+
 ## Timeline
+
+#### Over the Weekend
+
+- Researched force models for climbing protection at various degrees of precision
+- Physics engine tutorial on gravity
+
+#### Monday
+
+- Physics engine tutorial on springs and damping
+- Begin writing code for the engine
+
+#### Day 1
+
+- Finish physics engine
+- canvas tutorial/refresher
+- Begin work on rendering fall simulation in canvas
+
+#### Day 2
+
+- Finish canvas animation
+- Begin work on user interface (slider bars, maybe drag and drop for climber and protection)
+
+#### Day 3
+
+- complete user interface
+- Begin styling
+
+#### Day 4
+
+- Finish styling
+- Polish any rough edges
+
+## Sources
+
+Force Equations:
+https://ocw.mit.edu/courses/experimental-study-group/es-255-physics-of-rock-climbing-spring-2006/lecture-notes/MITES_255S06_rope_behav.pdf
+http://www.rockclimbing.com/cgi-bin/forum/gforum.cgi?do=post_attachment;postatt_id=746
+
+Gear Rating Examples:
+http://blackdiamondequipment.com/en/climbing-cams-stoppers-nuts-hexes/camalottm-BD2621200000ALL1.html
+http://blackdiamondequipment.com/en/climbing-cams-stoppers-nuts-hexes/stoppers-BD2252010000ALL1.html
