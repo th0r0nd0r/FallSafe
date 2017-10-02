@@ -4,7 +4,7 @@
 
 Rock climbing is a diverse sport with many distinct disciplines.  In the sport and traditional climbing styles, climbers ascend in pairs.  One climber is the belayer, holding the rope while the other climber (the leader) climbs.
 
-The leader is tied into the other end of the rope, and he or she clips the rope through protection lodged in the rock along the way up.  
+The leader is tied into one end of the rope, and he or she clips the rope through protection lodged in the rock along the way up.  
 Climbers use a mix of fixed, drilled bolts, and clean protection (nuts, cams, and hexes) brought up from the base to protect a climb.
 
 Fig 1. Sport climber ascending, clipping to bolts drilled in the stone.
