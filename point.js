@@ -15,6 +15,7 @@ class Point {
     this.mass = options.mass;
     this.radius = options.radius;
     this.area = (Math.PI * this.radius * this.radius) / 10000;
+    this.pinned = options.pinned || false;
     this.Fx = options.Fx || 0;
     this.Fy = options.Fy || 0;
     this.links = options.links || [];
