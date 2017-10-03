@@ -10,12 +10,17 @@ const canvasHeight = canvas.height;
 let startTime;
 let lastTime;
 let timeElapsed = 0;
+let lastX;
+let lastY;
+let nextX;
+let nextY;
 
 
 const requestAnimationFrame = window.requestAnimationFrame ||
                               window.mozRequestAnimationFrame ||
                               window.webkitRequestAnimationFrame ||
                               window.msRequestAnimationFrame;
+
 
 const point = {
   position: {x: canvasWidth/2, y: canvasHeight/2},
@@ -34,6 +39,8 @@ const animate = (currentTime) => {
   if (!startTime) {
     startTime = currentTime;
     lastTime = currentTime;
+    lastX = point.position.x;
+    lastY = point.position.y;
   } else {
     timeElapsed = currentTime - lastTime;
     lastTime = currentTime;
@@ -41,11 +48,23 @@ const animate = (currentTime) => {
     let aX = Fx / point.mass;
     let aY = g + (Fy / point.mass);
 
-    point.velocity.x += aX * (timeElapsed / 1000);
-    point.velocity.y += aY * (timeElapsed / 1000);
+    let deltaX = point.position.x - lastX;
+    let deltaY = point.position.y - lastY;
 
-    point.position.x += point.velocity.x * (timeElapsed / 1000);
-    point.position.y += point.velocity.y * (timeElapsed / 1000);
+    nextX = point.position.x + deltaX + aX * (timeElapsed / 100);
+    nextY = point.position.y + deltaY + aY * (timeElapsed / 100);
+
+    lastX = point.position.x;
+    lastY = point.position.y;
+
+    point.position.x = nextX;
+    point.position.y = nextY;
+    
+    // point.velocity.x += aX * (timeElapsed / 1000);
+    // point.velocity.y += aY * (timeElapsed / 1000);
+    //
+    // point.position.x += point.velocity.x * (timeElapsed / 1000);
+    // point.position.y += point.velocity.y * (timeElapsed / 1000);
   }
 
   ctx.clearRect(0,0,canvasWidth, canvasHeight);
