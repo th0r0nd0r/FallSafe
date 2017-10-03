@@ -138,7 +138,8 @@ const point3 = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */]({
   lastY: height/2,
   nextX: width/4,
   nextY: height/3,
-  position: {x: width/4, y: height/3},
+  pinned: true,
+  position: {x: width/4, y: height/6},
   velocity: {x: 0, y: 0},
   mass: 70,
   radius: 10
@@ -148,6 +149,7 @@ const points = [point, point2];
 const g = 9.81;
 
 point.addLinkTo(point3);
+point.addLinkTo(point2);
 
 const animate = (currentTime) => {
   if (!startTime) {
@@ -158,6 +160,10 @@ const animate = (currentTime) => {
     lastTime = currentTime;
 
     ctx.clearRect(0,0,width, height);
+
+    for (let i = 0; i < points.length; i++) {
+      points[i].solveLinkConstraints();
+    }
 
     for (let i = 0; i < points.length; i++) {
       points[i].updatePos(timeElapsed);
@@ -320,7 +326,7 @@ class Link {
 
 
     const invMass1 = 1 / m1;
-    const invMass2 = 1/ m2;
+    const invMass2 = 1 / m2;
     const scalarP1 = (invMass1 / (invMass1 + invMass2)) * this.stiffness;
     const scalarP2 = this.stiffness - scalarP1;
 
@@ -331,8 +337,8 @@ class Link {
     }
 
     if (!this.point2.pinned) {
-      p2.x += difference.x * scalarP2 * scalarD;
-      p2.y += difference.y * scalarP2 * scalarD;
+      p2.x -= difference.x * scalarP2 * scalarD;
+      p2.y -= difference.y * scalarP2 * scalarD;
     }
   }
 

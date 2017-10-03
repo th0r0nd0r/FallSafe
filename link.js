@@ -32,7 +32,7 @@ class Link {
 
 
     const invMass1 = 1 / m1;
-    const invMass2 = 1/ m2;
+    const invMass2 = 1 / m2;
     const scalarP1 = (invMass1 / (invMass1 + invMass2)) * this.stiffness;
     const scalarP2 = this.stiffness - scalarP1;
 
@@ -43,8 +43,8 @@ class Link {
     }
 
     if (!this.point2.pinned) {
-      p2.x += difference.x * scalarP2 * scalarD;
-      p2.y += difference.y * scalarP2 * scalarD;
+      p2.x -= difference.x * scalarP2 * scalarD;
+      p2.y -= difference.y * scalarP2 * scalarD;
     }
   }
 
