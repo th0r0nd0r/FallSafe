@@ -16,14 +16,13 @@ class Point {
     this.radius = options.radius;
     this.area = (Math.PI * this.radius * this.radius) / 10000;
     this.pinned = options.pinned || false;
-    this.Fx = options.Fx || 0;
-    this.Fy = options.Fy || 0;
+    this.aX = options.aX || 0;
+    this.aY = options.aY || 9.81;
     this.links = options.links || [];
   }
 
   updatePos(timeElapsed) {
-    let aX = this.Fx / this.mass;
-    let aY = 9.81 + (this.Fy / this.mass);
+    // this.applyForce({x: 0, y: })
     const seconds = timeElapsed / 100;
 
     let deltaX = this.position.x - this.lastX;
@@ -33,8 +32,8 @@ class Point {
     deltaX *= 1;
     deltaY *= 1;
 
-    this.nextX = this.position.x + deltaX + (0.5 * aX * seconds * seconds);
-    this.nextY = this.position.y + deltaY + (0.5 * aY * seconds * seconds);
+    this.nextX = this.position.x + deltaX + (0.5 * this.aX * seconds * seconds);
+    this.nextY = this.position.y + deltaY + (0.5 * this.aY * seconds * seconds);
 
     this.lastX = this.position.x;
     this.lastY = this.position.y;
@@ -43,10 +42,28 @@ class Point {
     this.position.y = this.nextY;
   }
 
+  applyForce(force) {
+    this.aX += force.x / this.mass;
+    this.aY += force.y / this.mass;
+  }
+
+  solveLinkConstraints() {
+    for (let i = 0; i < this.links.length; i++) {
+      this.links[i].solve();
+    }
+
+
+  }
+
   addLinkTo(point2) {
-    const newLink = new Link({p1: this, p2: point2});
+    const newLink = new Link({point1: this, point2: point2});
     this.links.push(newLink);
     point2.links.push(newLink);
+    console.log(this.links);
+  }
+
+  removeLink(link) {
+    this.links.splice(this.links.indexOf(link), 1);
   }
 
   render() {

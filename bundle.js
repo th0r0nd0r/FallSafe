@@ -147,6 +147,8 @@ const point3 = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */]({
 const points = [point, point2];
 const g = 9.81;
 
+point.addLinkTo(point3);
+
 const animate = (currentTime) => {
   if (!startTime) {
     startTime = currentTime;
@@ -187,7 +189,6 @@ animate();
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__link__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__link___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__link__);
 
 
 const canvas = document.getElementById("canvas");
@@ -206,14 +207,13 @@ class Point {
     this.radius = options.radius;
     this.area = (Math.PI * this.radius * this.radius) / 10000;
     this.pinned = options.pinned || false;
-    this.Fx = options.Fx || 0;
-    this.Fy = options.Fy || 0;
+    this.aX = options.aX || 0;
+    this.aY = options.aY || 9.81;
     this.links = options.links || [];
   }
 
   updatePos(timeElapsed) {
-    let aX = this.Fx / this.mass;
-    let aY = 9.81 + (this.Fy / this.mass);
+    // this.applyForce({x: 0, y: })
     const seconds = timeElapsed / 100;
 
     let deltaX = this.position.x - this.lastX;
@@ -223,8 +223,8 @@ class Point {
     deltaX *= 1;
     deltaY *= 1;
 
-    this.nextX = this.position.x + deltaX + (0.5 * aX * seconds * seconds);
-    this.nextY = this.position.y + deltaY + (0.5 * aY * seconds * seconds);
+    this.nextX = this.position.x + deltaX + (0.5 * this.aX * seconds * seconds);
+    this.nextY = this.position.y + deltaY + (0.5 * this.aY * seconds * seconds);
 
     this.lastX = this.position.x;
     this.lastY = this.position.y;
@@ -233,10 +233,28 @@ class Point {
     this.position.y = this.nextY;
   }
 
+  applyForce(force) {
+    this.aX += force.x / this.mass;
+    this.aY += force.y / this.mass;
+  }
+
+  solveLinkConstraints() {
+    for (let i = 0; i < this.links.length; i++) {
+      this.links[i].solve();
+    }
+
+
+  }
+
   addLinkTo(point2) {
-    const newLink = new __WEBPACK_IMPORTED_MODULE_0__link___default.a({p1: this, p2: point2});
+    const newLink = new __WEBPACK_IMPORTED_MODULE_0__link__["a" /* default */]({point1: this, point2: point2});
     this.links.push(newLink);
     point2.links.push(newLink);
+    console.log(this.links);
+  }
+
+  removeLink(link) {
+    this.links.splice(this.links.indexOf(link), 1);
   }
 
   render() {
@@ -265,10 +283,15 @@ class Point {
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 // this method of constructing links using verlet integration was adopted from
 // this tutorial by Jared Counts https://gamedevelopment.tutsplus.com/tutorials/simulate-tearable-cloth-and-ragdolls-with-simple-verlet-integration--gamedev-519
+
+const canvas = document.getElementById("canvas");
+// console.log("canvas",canvas);
+const ctx = canvas.getContext("2d");
 
 class Link {
   constructor(options) {
@@ -276,6 +299,8 @@ class Link {
     this.point2 = options.point2;
     this.restingDistance = options.restingDistace || 100;
     this.stiffness = options.stiffness || 1;
+    this.tearDist = options.tearDist || 1000000;
+    this.drawThis = options.drawThis || true;
   }
 
   solve() {
@@ -287,12 +312,18 @@ class Link {
     const difference = { x: p1.x - p2.x, y: p1.y - p2.y };
     const d = Math.sqrt(difference.x * difference.x + difference.y * difference.y);
 
+    if (d > this.tearDist) {
+      this.point1.removeLink(this);
+    }
+
     const scalarD = (this.restingDistance - d) / d;
+
 
     const invMass1 = 1 / m1;
     const invMass2 = 1/ m2;
     const scalarP1 = (invMass1 / (invMass1 + invMass2)) * this.stiffness;
     const scalarP2 = this.stiffness - scalarP1;
+
 
     if (!this.point1.pinned) {
       p1.x += difference.x * scalarP1 * scalarD;
@@ -304,7 +335,20 @@ class Link {
       p2.y += difference.y * scalarP2 * scalarD;
     }
   }
+
+  render() {
+    const p1 = this.point1.position;
+    const p2 = this.point2.position;
+    if (this.drawThis) {
+      ctx.beginPath();
+      ctx.moveTo(p1.x, p1.y);
+      ctx.lineTo(p2.x, p2.y);
+      ctx.stroke();
+    }
+  }
 }
+
+/* harmony default export */ __webpack_exports__["a"] = (Link);
 
 
 /***/ })

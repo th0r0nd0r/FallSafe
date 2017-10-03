@@ -55,6 +55,8 @@ const point3 = new Point({
 const points = [point, point2];
 const g = 9.81;
 
+point.addLinkTo(point3);
+
 const animate = (currentTime) => {
   if (!startTime) {
     startTime = currentTime;
