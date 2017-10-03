@@ -1,3 +1,5 @@
+import Link from './link';
+
 const canvas = document.getElementById("canvas");
 // console.log("canvas",canvas);
 const ctx = canvas.getContext("2d");
@@ -15,23 +17,35 @@ class Point {
     this.area = (Math.PI * this.radius * this.radius) / 10000;
     this.Fx = options.Fx || 0;
     this.Fy = options.Fy || 0;
+    this.links = options.links || [];
   }
 
   updatePos(timeElapsed) {
     let aX = this.Fx / this.mass;
     let aY = 9.81 + (this.Fy / this.mass);
+    const seconds = timeElapsed / 100;
 
     let deltaX = this.position.x - this.lastX;
     let deltaY = this.position.y - this.lastY;
 
-    this.nextX = this.position.x + deltaX + aX * (timeElapsed / 100);
-    this.nextY = this.position.y + deltaY + aY * (timeElapsed / 100);
+    // damping velocity
+    deltaX *= 1;
+    deltaY *= 1;
+
+    this.nextX = this.position.x + deltaX + (0.5 * aX * seconds * seconds);
+    this.nextY = this.position.y + deltaY + (0.5 * aY * seconds * seconds);
 
     this.lastX = this.position.x;
     this.lastY = this.position.y;
 
     this.position.x = this.nextX;
     this.position.y = this.nextY;
+  }
+
+  addLinkTo(point2) {
+    const newLink = new Link({p1: this, p2: point2});
+    this.links.push(newLink);
+    point2.links.push(newLink);
   }
 
   render() {
@@ -44,6 +58,14 @@ class Point {
     ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI*2, true);
     ctx.fill();
     ctx.closePath();
+
+    const links = this.links;
+
+    if (links.length > 0) {
+      for (let i = 0; i < links.length; i++) {
+        links[i].render();
+      }
+    }
   }
 }
 

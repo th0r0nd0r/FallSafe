@@ -75,9 +75,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
@@ -136,6 +133,17 @@ const point2 = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */]({
   radius: 20
 });
 
+const point3 = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */]({
+  lastX: width/3,
+  lastY: height/2,
+  nextX: width/4,
+  nextY: height/3,
+  position: {x: width/4, y: height/3},
+  velocity: {x: 0, y: 0},
+  mass: 70,
+  radius: 10
+});
+
 const points = [point, point2];
 const g = 9.81;
 
@@ -156,6 +164,8 @@ const animate = (currentTime) => {
     for (let i = 0; i < points.length; i++) {
       points[i].render();
     }
+
+    point3.render();
   }
 
   //
@@ -176,6 +186,10 @@ animate();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__link__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__link___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__link__);
+
+
 const canvas = document.getElementById("canvas");
 // console.log("canvas",canvas);
 const ctx = canvas.getContext("2d");
@@ -193,23 +207,35 @@ class Point {
     this.area = (Math.PI * this.radius * this.radius) / 10000;
     this.Fx = options.Fx || 0;
     this.Fy = options.Fy || 0;
+    this.links = options.links || [];
   }
 
   updatePos(timeElapsed) {
     let aX = this.Fx / this.mass;
     let aY = 9.81 + (this.Fy / this.mass);
+    const seconds = timeElapsed / 100;
 
     let deltaX = this.position.x - this.lastX;
     let deltaY = this.position.y - this.lastY;
 
-    this.nextX = this.position.x + deltaX + aX * (timeElapsed / 100);
-    this.nextY = this.position.y + deltaY + aY * (timeElapsed / 100);
+    // damping velocity
+    deltaX *= 1;
+    deltaY *= 1;
+
+    this.nextX = this.position.x + deltaX + (0.5 * aX * seconds * seconds);
+    this.nextY = this.position.y + deltaY + (0.5 * aY * seconds * seconds);
 
     this.lastX = this.position.x;
     this.lastY = this.position.y;
 
     this.position.x = this.nextX;
     this.position.y = this.nextY;
+  }
+
+  addLinkTo(point2) {
+    const newLink = new __WEBPACK_IMPORTED_MODULE_0__link___default.a({p1: this, p2: point2});
+    this.links.push(newLink);
+    point2.links.push(newLink);
   }
 
   render() {
@@ -222,10 +248,24 @@ class Point {
     ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI*2, true);
     ctx.fill();
     ctx.closePath();
+
+    const links = this.links;
+
+    if (links.length > 0) {
+      for (let i = 0; i < links.length; i++) {
+        links[i].render();
+      }
+    }
   }
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Point);
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
 
 
 /***/ })

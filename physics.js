@@ -41,6 +41,17 @@ const point2 = new Point({
   radius: 20
 });
 
+const point3 = new Point({
+  lastX: width/3,
+  lastY: height/2,
+  nextX: width/4,
+  nextY: height/3,
+  position: {x: width/4, y: height/3},
+  velocity: {x: 0, y: 0},
+  mass: 70,
+  radius: 10
+});
+
 const points = [point, point2];
 const g = 9.81;
 
@@ -61,6 +72,8 @@ const animate = (currentTime) => {
     for (let i = 0; i < points.length; i++) {
       points[i].render();
     }
+
+    point3.render();
   }
 
   //
