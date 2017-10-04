@@ -18,7 +18,7 @@ class Point {
     this.area = (Math.PI * this.radius * this.radius) / 10000;
     this.pinned = options.pinned || false;
     this.aX = options.aX || 0;
-    this.aY = options.aY || 5.81;
+    this.aY = options.aY || 20.81;
     this.links = options.links || [];
 
     this.updatePos = this.updatePos.bind(this);
@@ -38,8 +38,8 @@ class Point {
     let deltaY = this.position.y - this.lastY;
 
     // damping velocity
-    deltaX *= 1;
-    deltaY *= 1;
+    deltaX *= .95;
+    deltaY *= .95;
 
     this.nextX = this.position.x + deltaX + (0.5 * this.aX * seconds * seconds);
     this.nextY = this.position.y + deltaY + (0.5 * this.aY * seconds * seconds);

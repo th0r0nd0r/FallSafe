@@ -80,8 +80,11 @@ const points = [];
 const seedPoints = (numPoints) => {
 
 
+  const xModifier = 0.0025;
+  const yModifier = 0.005;
+
   let lastX = (.75 * width);
-  let lastY = (0.9 * height);
+  let lastY = (0.4 * height);
   var x = lastX;
   var y = lastY;
   let nextX = lastX;
@@ -90,7 +93,7 @@ const seedPoints = (numPoints) => {
   let mass = 70;
   let radius = 2;
 
-  const restingDistance = Math.sqrt((.005 * height) * (.005 * height) + (.005 * width) * (.005 * width));
+  const restingDistance = Math.sqrt((yModifier * height) * (yModifier * height) + (xModifier * width) * (xModifier * width));
 
   for (let i = 0; i < numPoints; i++) {
     console.log("x, y:", x, y);
@@ -121,18 +124,22 @@ const seedPoints = (numPoints) => {
     const newPoint = new Point(pointObj);
     console.log("newPoint", newPoint);
 
-    if (i > 50 && i < 55) {
+    if (i > (numPoints / 2) && i < (numPoints / 2 + 5)) {
       newPoint.pinned = true;
+    }
+
+    if (i === (numPoints - 1)) {
+      newPoint.mass = 500;
     }
 
     points.push(newPoint);
 
-    lastX -= (.005 * width);
-    lastY -= (.005 * height);
-    nextX -= (.005 * width);
-    nextY -= (.005 * height);
-    x -= (.005 * width);
-    y -= (.005 * height);
+    lastX -= (xModifier * width);
+    lastY -= (yModifier * height);
+    nextX -= (xModifier * width);
+    nextY -= (yModifier * height);
+    x -= (xModifier * width);
+    y -= (yModifier * height);
 
     if (points.length > 1) {
       points[i].addLinkTo({otherPoint: points[i - 1], restingDistance});
@@ -243,7 +250,7 @@ const isCollidedWith = (point, point2) => {
   }
 };
 
-seedPoints(100);
+seedPoints(50);
 
 const animate = (currentTime) => {
   // console.log("animate");
