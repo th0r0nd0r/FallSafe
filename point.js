@@ -56,12 +56,14 @@ class Point {
     }
   }
 
-  collideWithLink(link) {
-    link.point1.pinned = true;
-    // link.point1.position.x = 1;
-    // link.point1.position.y = 1;
-    link.point2.pinned = true;
-  }
+  // collideWithLink(link) {
+  //   console.log("collideLink:", link);
+  //   debugger;
+  //   link.point1.pinned = true;
+  //   // link.point1.position.x = 1;
+  //   // link.point1.position.y = 1;
+  //   link.point2.pinned = true;
+  // }
 
   applyForce(force) {
     this.aX += force.x / this.mass;
