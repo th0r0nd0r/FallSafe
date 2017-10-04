@@ -73,6 +73,62 @@ const checkCollisions = (points) => {
   }
 };
 
+const checkLinkCollisions = (points) => {
+  const links = [];
+  const pinned = [];
+  for (let i = 0; i < points.length; i++) {
+    if (points[i].pinned) {
+      pinned.push(points[i]);
+    }
+    points[i].links.forEach((link) => {
+      links.push(link);
+    });
+  }
+  // debugger;
+  for (let i = 0; i < pinned.length; i++) {
+    for (let j = 0; j < links.length; j++) {
+      let pinnedPt = pinned[i];
+      let link = links[j];
+      if (isCollidedWithLink(pinnedPt, link)) {
+        pinnedPt.collideWithLink(link);
+      }
+    }
+  }
+};
+
+const isCollidedWithLink = (pinnedPt, link) => {
+  let lowX;
+  let highX;
+
+  console.log("pinnedPt:", pinnedPt);
+  console.log("pinnedPt.position:", pinnedPt.position);
+
+
+  const pinnedPos = pinnedPt.position;
+  const p1Pos = link.point1.position;
+  const p2Pos = link.point2.position;
+  console.log("p1Pos:", p1Pos, "p2Pos:", p2Pos);
+
+  if (p1Pos.x < p2Pos.x) {
+    lowX = p1Pos.x;
+    highX = p2Pos.x;
+  } else {
+    lowX = p2Pos.x;
+    highX = p1Pos.x;
+  }
+
+  const c = Math.sqrt((p1Pos.x - p2Pos.x) * (p1Pos.x - p2Pos.x) + (p1Pos.y - p2Pos.y) * (p1Pos.y - p2Pos.y));
+  const a = (highX - lowX);
+
+  if (pinnedPos >= lowX && pinnedPos <= highX) {
+    if (pinnedPos.y === ((pinnedPos.x * c) / a)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+};
+
 const isCollidedWith = (point, point2) => {
   const pos1 = {x: point.position.x, y: point.position.y};
   const pos2 = {x: point2.position.x, y: point2.position.y};
@@ -102,6 +158,7 @@ const animate = (currentTime) => {
     }
 
     checkCollisions(points);
+    checkLinkCollisions(points);
 
     for (let i = 0; i < points.length; i++) {
       points[i].render();

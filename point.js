@@ -56,6 +56,11 @@ class Point {
     }
   }
 
+  collideWithLink(link) {
+    link.point1.pinned = true;
+    link.point2.pinned = true;
+  }
+
   applyForce(force) {
     this.aX += force.x / this.mass;
     this.aY += force.y / this.mass;
