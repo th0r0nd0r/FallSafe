@@ -118,7 +118,7 @@ const point = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */]({
   nextY: height/2,
   position: {x: width/2, y: height/2},
   velocity: {x: 0, y: 0},
-  mass: 70,
+  mass: 700,
   radius: 20
 });
 
@@ -129,7 +129,7 @@ const point2 = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */]({
   nextY: height/2,
   position: {x: width/3, y: height/2},
   velocity: {x: 0, y: 0},
-  mass: 70,
+  mass: 70000,
   radius: 20
 });
 
@@ -145,11 +145,35 @@ const point3 = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */]({
   radius: 10
 });
 
-const points = [point, point2];
+const points = [point, point2, point3];
 const g = 9.81;
 
 point.addLinkTo(point3);
 point.addLinkTo(point2);
+
+const checkCollisions = (points) => {
+  for (let i = 0; i < points.length; i++) {
+    for (let j = 1; j < points.length; j++) {
+      const pt1 = points[i];
+      const pt2 = points[j];
+
+      if (isCollidedWith(pt1, pt2)) {
+        pt1.collideWith(pt2);
+        pt2.collideWith(pt1);
+      }
+    }
+  }
+};
+
+const isCollidedWith = (point, point2) => {
+  const pos1 = {x: point.position.x, y: point.position.y};
+  const pos2 = {x: point2.position.x, y: point2.position.y};
+  if (pos1 === pos2) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 const animate = (currentTime) => {
   if (!startTime) {
@@ -169,11 +193,11 @@ const animate = (currentTime) => {
       points[i].updatePos(timeElapsed);
     }
 
+    checkCollisions(points);
+
     for (let i = 0; i < points.length; i++) {
       points[i].render();
     }
-
-    point3.render();
   }
 
   //
@@ -232,11 +256,25 @@ class Point {
     this.nextX = this.position.x + deltaX + (0.5 * this.aX * seconds * seconds);
     this.nextY = this.position.y + deltaY + (0.5 * this.aY * seconds * seconds);
 
+
+
     this.lastX = this.position.x;
     this.lastY = this.position.y;
 
-    this.position.x = this.nextX;
-    this.position.y = this.nextY;
+    if (!this.pinned) {
+      this.position.x = this.nextX;
+      this.position.y = this.nextY;
+    } else {
+      this.nextX = this.position.x;
+      this.nextY = this.position.y;
+    }
+  }
+
+  collideWith(pt2) {
+    if (!this.pinned) {
+      this.position.x = this.lastX;
+      this.position.y = this.lastY;
+    }
   }
 
   applyForce(force) {

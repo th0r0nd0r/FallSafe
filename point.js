@@ -35,11 +35,25 @@ class Point {
     this.nextX = this.position.x + deltaX + (0.5 * this.aX * seconds * seconds);
     this.nextY = this.position.y + deltaY + (0.5 * this.aY * seconds * seconds);
 
+
+
     this.lastX = this.position.x;
     this.lastY = this.position.y;
 
-    this.position.x = this.nextX;
-    this.position.y = this.nextY;
+    if (!this.pinned) {
+      this.position.x = this.nextX;
+      this.position.y = this.nextY;
+    } else {
+      this.nextX = this.position.x;
+      this.nextY = this.position.y;
+    }
+  }
+
+  collideWith(pt2) {
+    if (!this.pinned) {
+      this.position.x = this.lastX;
+      this.position.y = this.lastY;
+    }
   }
 
   applyForce(force) {
