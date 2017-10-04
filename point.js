@@ -58,6 +58,8 @@ class Point {
 
   collideWithLink(link) {
     link.point1.pinned = true;
+    // link.point1.position.x = 1;
+    // link.point1.position.y = 1;
     link.point2.pinned = true;
   }
 
@@ -74,11 +76,16 @@ class Point {
 
   }
 
-  addLinkTo(point2) {
-    const newLink = new Link({point1: this, point2: point2});
+  addLinkTo(options) {
+    const otherPoint = options.otherPoint;
+    const restingDistance = options.restingDistance;
+    // debugger;
+    console.log("restingDistance:", options.restingDistance);
+    const newLink = new Link({point1: this, point2: otherPoint, restingDistance});
+    console.log("newLink:", newLink);
     this.links.push(newLink);
-    point2.links.push(newLink);
-    console.log(this.links);
+    otherPoint.links.push(newLink);
+    console.log("links:", this.links);
   }
 
   removeLink(link) {

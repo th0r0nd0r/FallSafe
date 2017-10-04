@@ -145,11 +145,34 @@ const point3 = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */]({
   radius: 10
 });
 
-const points = [point, point2, point3];
+const point4 = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */]({
+  lastX: width/6,
+  lastY: height/12,
+  nextX: width/6,
+  nextY: height/12,
+  position: {x: width/6, y: height/12},
+  velocity: {x: 0, y: 0},
+  mass: 70,
+  radius: 10
+});
+
+const point5 = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */]({
+  lastX: (.75 * width),
+  lastY: height/12,
+  nextX: (.75 * width),
+  nextY: height/12,
+  position: {x: (.75 * width), y: height/12},
+  velocity: {x: 0, y: 0},
+  mass: 70,
+  radius: 20
+});
+
+const points = [point, point2, point3, point4, point5];
 const g = 9.81;
 
-point.addLinkTo(point3);
-point.addLinkTo(point2);
+point.addLinkTo({otherPoint: point3, restingDistance: 2});
+point.addLinkTo({otherPoint: point2, restingDistance: 2});
+point4.addLinkTo({otherPoint: point5, restingDistance: (Math.abs(point4.position.x - point5.position.x))});
 
 const checkCollisions = (points) => {
   for (let i = 0; i < points.length; i++) {
@@ -240,17 +263,17 @@ const animate = (currentTime) => {
     lastTime = currentTime;
 
     ctx.clearRect(0,0,width, height);
+    for (let i = 0; i < points.length; i++) {
+      points[i].updatePos(timeElapsed);
+    }
 
     for (let i = 0; i < points.length; i++) {
       points[i].solveLinkConstraints();
     }
 
-    for (let i = 0; i < points.length; i++) {
-      points[i].updatePos(timeElapsed);
-    }
 
     checkCollisions(points);
-    checkLinkCollisions(points);
+    // checkLinkCollisions(points);
 
     for (let i = 0; i < points.length; i++) {
       points[i].render();
@@ -336,6 +359,8 @@ class Point {
 
   collideWithLink(link) {
     link.point1.pinned = true;
+    // link.point1.position.x = 1;
+    // link.point1.position.y = 1;
     link.point2.pinned = true;
   }
 
@@ -352,11 +377,16 @@ class Point {
 
   }
 
-  addLinkTo(point2) {
-    const newLink = new __WEBPACK_IMPORTED_MODULE_0__link__["a" /* default */]({point1: this, point2: point2});
+  addLinkTo(options) {
+    const otherPoint = options.otherPoint;
+    const restingDistance = options.restingDistance;
+    // debugger;
+    console.log("restingDistance:", options.restingDistance);
+    const newLink = new __WEBPACK_IMPORTED_MODULE_0__link__["a" /* default */]({point1: this, point2: otherPoint, restingDistance});
+    console.log("newLink:", newLink);
     this.links.push(newLink);
-    point2.links.push(newLink);
-    console.log(this.links);
+    otherPoint.links.push(newLink);
+    console.log("links:", this.links);
   }
 
   removeLink(link) {
@@ -403,7 +433,13 @@ class Link {
   constructor(options) {
     this.point1 = options.point1;
     this.point2 = options.point2;
-    this.restingDistance = options.restingDistace || 100;
+    console.log("linkOptionsRestingDistance:", options.restingDistance);
+    if (options.restingDistance) {
+      this.restingDistance = options.restingDistance;
+    } else {
+      this.restingDistace = 100;
+    }
+    console.log("linkrestingDistance:", this.restingDistance);
     this.stiffness = options.stiffness || 1;
     this.tearDist = options.tearDist || 1000000;
     this.drawThis = options.drawThis || true;
