@@ -70,6 +70,7 @@
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__physics_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__physics_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__physics_js__);
 
 
 
@@ -111,68 +112,133 @@ const requestAnimationFrame = window.requestAnimationFrame ||
                               window.msRequestAnimationFrame;
 
 
-const point = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */]({
-  lastX: width/2,
-  lastY: height/2,
-  nextX: width/2,
-  nextY: height/2,
-  position: {x: width/2, y: height/2},
-  velocity: {x: 0, y: 0},
-  mass: 700,
-  radius: 10
-});
+// const point = new Point({
+//   lastX: width/2,
+//   lastY: height/2,
+//   nextX: width/2,
+//   nextY: height/2,
+//   position: {x: width/2, y: height/2},
+//   velocity: {x: 0, y: 0},
+//   mass: 700,
+//   radius: 10
+// });
+//
+// const point2 = new Point({
+//   lastX: width/3,
+//   lastY: height/2,
+//   nextX: width/3,
+//   nextY: height/2,
+//   position: {x: width/3, y: height/2},
+//   velocity: {x: 0, y: 0},
+//   mass: 70000,
+//   radius: 10
+// });
+//
+// const point3 = new Point({
+//   lastX: width/3,
+//   lastY: height/2,
+//   nextX: width/4,
+//   nextY: height/3,
+//   pinned: true,
+//   position: {x: width/4, y: height/6},
+//   velocity: {x: 0, y: 0},
+//   mass: 70,
+//   radius: 10
+// });
+//
+// const point4 = new Point({
+//   lastX: width/6,
+//   lastY: height/12,
+//   nextX: width/6,
+//   nextY: height/12,
+//   position: {x: width/6, y: height/12},
+//   velocity: {x: 0, y: 0},
+//   mass: 70,
+//   radius: 10
+// });
+//
+// const point5 = new Point({
+//   lastX: (.75 * width),
+//   nextX: (.75 * width),
+//   nextY: height/12,
+//   lastY: height/12,
+//   position: {x: (.75 * width), y: height/12},
+//   velocity: {x: 0, y: 0},
+//   mass: 70,
+//   radius: 20
+// });
 
-const point2 = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */]({
-  lastX: width/3,
-  lastY: height/2,
-  nextX: width/3,
-  nextY: height/2,
-  position: {x: width/3, y: height/2},
-  velocity: {x: 0, y: 0},
-  mass: 70000,
-  radius: 10
-});
+const points = [];
 
-const point3 = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */]({
-  lastX: width/3,
-  lastY: height/2,
-  nextX: width/4,
-  nextY: height/3,
-  pinned: true,
-  position: {x: width/4, y: height/6},
-  velocity: {x: 0, y: 0},
-  mass: 70,
-  radius: 10
-});
+const seedPoints = (numPoints) => {
 
-const point4 = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */]({
-  lastX: width/6,
-  lastY: height/12,
-  nextX: width/6,
-  nextY: height/12,
-  position: {x: width/6, y: height/12},
-  velocity: {x: 0, y: 0},
-  mass: 70,
-  radius: 10
-});
 
-const point5 = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */]({
-  lastX: (.75 * width),
-  lastY: height/12,
-  nextX: (.75 * width),
-  nextY: height/12,
-  position: {x: (.75 * width), y: height/12},
-  velocity: {x: 0, y: 0},
-  mass: 70,
-  radius: 20
-});
+  let lastX = (.75 * width);
+  let lastY = (0.9 * height);
+  var x = lastX;
+  var y = lastY;
+  let nextX = lastX;
+  let nextY = lastY;
+  let velocity = {x: 0, y: 0};
+  let mass = 70;
+  let radius = 2;
 
-const points = [point, point2, point3, point4, point5];
+  const restingDistance = Math.sqrt((.005 * height) * (.005 * height) + (.005 * width) * (.005 * width));
+
+  for (let i = 0; i < numPoints; i++) {
+    console.log("x, y:", x, y);
+
+
+
+    var position = {
+      x,
+      y
+    };
+
+    console.log("position:", position);
+    const pointObj = {
+      lastX,
+      lastY,
+      nextX,
+      nextY,
+      x,
+      y,
+      position,
+      velocity,
+      mass,
+      radius
+    };
+    console.log("pointObj:", pointObj);
+
+    Object.freeze(pointObj);
+    const newPoint = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */](pointObj);
+    console.log("newPoint", newPoint);
+
+    if (i > 50 && i < 55) {
+      newPoint.pinned = true;
+    }
+
+    points.push(newPoint);
+
+    lastX -= (.005 * width);
+    lastY -= (.005 * height);
+    nextX -= (.005 * width);
+    nextY -= (.005 * height);
+    x -= (.005 * width);
+    y -= (.005 * height);
+
+    if (points.length > 1) {
+      points[i].addLinkTo({otherPoint: points[i - 1], restingDistance});
+    }
+  }
+  console.log("points:", points);
+};
+
 const g = 9.81;
 
-point.addLinkTo({otherPoint: point3, restingDistance: 50});
-point.addLinkTo({otherPoint: point2, restingDistance: 50});
-point4.addLinkTo({otherPoint: point5, restingDistance: (Math.abs(point4.position.x - point5.position.x))});
+// point.addLinkTo({otherPoint: point3, restingDistance: 50});
+// point.addLinkTo({otherPoint: point2, restingDistance: 50});
+// point4.addLinkTo({otherPoint: point5, restingDistance: (Math.abs(point4.position.x - point5.position.x))});
 
 const checkCollisions = (points) => {
   for (let i = 0; i < (points.length - 1); i++) {
@@ -180,7 +246,7 @@ const checkCollisions = (points) => {
       const pt1 = points[i];
       const pt2 = points[j];
 
-      if ((pt1 !== pt2) && isCollidedWith(pt1, pt2)) {
+      if ((pt1 !== pt2) && isCollidedWith(pt1, pt2) && (pt1.pinned || pt2.pinned)) {
         console.log("collision?", isCollidedWith(pt1, pt2));
         pt1.collideWith(pt2);
         pt2.collideWith(pt1);
@@ -270,13 +336,17 @@ const isCollidedWith = (point, point2) => {
   }
 };
 
+seedPoints(100);
+
 const animate = (currentTime) => {
+  // console.log("animate");
   if (!startTime) {
     startTime = currentTime;
     lastTime = currentTime;
   } else {
     timeElapsed = currentTime - lastTime;
     lastTime = currentTime;
+
 
     ctx.clearRect(0,0,width, height);
     for (let i = 0; i < points.length; i++) {
@@ -323,6 +393,7 @@ const ctx = canvas.getContext("2d");
 
 class Point {
   constructor(options) {
+    console.log("options:", options);
     this.lastX = options.lastX;
     this.lastY = options.lastY;
     this.nextX = options.nextX;
@@ -334,8 +405,16 @@ class Point {
     this.area = (Math.PI * this.radius * this.radius) / 10000;
     this.pinned = options.pinned || false;
     this.aX = options.aX || 0;
-    this.aY = options.aY || 9.81;
+    this.aY = options.aY || 5.81;
     this.links = options.links || [];
+
+    this.updatePos = this.updatePos.bind(this);
+    this.collideWith = this.collideWith.bind(this);
+    this.applyForce = this.applyForce.bind(this);
+    this.solveLinkConstraints = this.solveLinkConstraints.bind(this);
+    this.addLinkTo = this.addLinkTo.bind(this);
+    this.removeLink = this.removeLink.bind(this);
+    this.render = this.render.bind(this);
   }
 
   updatePos(timeElapsed) {
@@ -399,7 +478,6 @@ class Point {
     const otherPoint = options.otherPoint;
     const restingDistance = options.restingDistance;
     // debugger;
-    console.log("restingDistance:", options.restingDistance);
     const newLink = new __WEBPACK_IMPORTED_MODULE_0__link__["a" /* default */]({point1: this, point2: otherPoint, restingDistance});
     console.log("newLink:", newLink);
     this.links.push(newLink);
@@ -417,10 +495,10 @@ class Point {
     // ctx.clearRect(0,0,width, height);
     ctx.fillStyle = 'blue';
     ctx.strokeStyle = '#000000';
-    ctx.beginPath();
-    ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI*2, true);
-    ctx.fill();
-    ctx.closePath();
+    // ctx.beginPath();
+    // ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI*2, true);
+    // ctx.fill();
+    // ctx.closePath();
 
     const links = this.links;
 
@@ -451,13 +529,13 @@ class Link {
   constructor(options) {
     this.point1 = options.point1;
     this.point2 = options.point2;
-    console.log("linkOptionsRestingDistance:", options.restingDistance);
+    // console.log("linkOptionsRestingDistance:", options.restingDistance);
     if (options.restingDistance) {
       this.restingDistance = options.restingDistance;
     } else {
       this.restingDistace = 100;
     }
-    console.log("linkrestingDistance:", this.restingDistance);
+    // console.log("linkrestingDistance:", this.restingDistance);
     this.stiffness = options.stiffness || 1;
     this.tearDist = options.tearDist || 1000000;
     this.drawThis = options.drawThis || true;

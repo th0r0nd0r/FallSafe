@@ -6,6 +6,7 @@ const ctx = canvas.getContext("2d");
 
 class Point {
   constructor(options) {
+    console.log("options:", options);
     this.lastX = options.lastX;
     this.lastY = options.lastY;
     this.nextX = options.nextX;
@@ -17,8 +18,16 @@ class Point {
     this.area = (Math.PI * this.radius * this.radius) / 10000;
     this.pinned = options.pinned || false;
     this.aX = options.aX || 0;
-    this.aY = options.aY || 9.81;
+    this.aY = options.aY || 5.81;
     this.links = options.links || [];
+
+    this.updatePos = this.updatePos.bind(this);
+    this.collideWith = this.collideWith.bind(this);
+    this.applyForce = this.applyForce.bind(this);
+    this.solveLinkConstraints = this.solveLinkConstraints.bind(this);
+    this.addLinkTo = this.addLinkTo.bind(this);
+    this.removeLink = this.removeLink.bind(this);
+    this.render = this.render.bind(this);
   }
 
   updatePos(timeElapsed) {
@@ -82,7 +91,6 @@ class Point {
     const otherPoint = options.otherPoint;
     const restingDistance = options.restingDistance;
     // debugger;
-    console.log("restingDistance:", options.restingDistance);
     const newLink = new Link({point1: this, point2: otherPoint, restingDistance});
     console.log("newLink:", newLink);
     this.links.push(newLink);
@@ -100,10 +108,10 @@ class Point {
     // ctx.clearRect(0,0,width, height);
     ctx.fillStyle = 'blue';
     ctx.strokeStyle = '#000000';
-    ctx.beginPath();
-    ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI*2, true);
-    ctx.fill();
-    ctx.closePath();
+    // ctx.beginPath();
+    // ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI*2, true);
+    // ctx.fill();
+    // ctx.closePath();
 
     const links = this.links;
 

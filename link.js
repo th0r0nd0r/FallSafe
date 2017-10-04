@@ -9,13 +9,13 @@ class Link {
   constructor(options) {
     this.point1 = options.point1;
     this.point2 = options.point2;
-    console.log("linkOptionsRestingDistance:", options.restingDistance);
+    // console.log("linkOptionsRestingDistance:", options.restingDistance);
     if (options.restingDistance) {
       this.restingDistance = options.restingDistance;
     } else {
       this.restingDistace = 100;
     }
-    console.log("linkrestingDistance:", this.restingDistance);
+    // console.log("linkrestingDistance:", this.restingDistance);
     this.stiffness = options.stiffness || 1;
     this.tearDist = options.tearDist || 1000000;
     this.drawThis = options.drawThis || true;
