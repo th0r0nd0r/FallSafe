@@ -86,6 +86,19 @@ proHeight.addEventListener("change", (e) => {
   animate();
 });
 
+const climberMass = document.getElementById("climber-mass");
+climberMass.addEventListener("change", (e) => {
+  seeds.climberMass = parseInt(e.target.value);
+  if (req) {
+    cancelAnimationFrame(req);
+  }
+  loops = 0;
+  startTime = undefined;
+  seedPoints(seeds.numPoints, seeds.anchorValue, seeds.climberMass);
+  // console.log("seeded");
+  animate();
+});
+
 
 
 
@@ -95,8 +108,8 @@ const seedPoints = (numPoints, anchorValue) => {
   ctx.clearRect(0,0,width, height);
   points = [];
 
-  const xModifier = 0.0025;
-  const yModifier = 0.005;
+  const xModifier = 0.00125;
+  const yModifier = 0.0025;
 
   let lastX = (.75 * width);
   let lastY = (0.4 * height);
