@@ -151,6 +151,7 @@ let points = [];
 const seeds = new __WEBPACK_IMPORTED_MODULE_1__seed_data__["a" /* default */]({
   numPoints: 50,
   anchorValue: 25,
+  climberMass: 300
 });
 
 const ropeLength = document.getElementById("rope-length");
@@ -161,7 +162,7 @@ ropeLength.addEventListener("change", (e) => {
   }
   loops = 0;
   startTime = undefined;
-  seedPoints(seeds.numPoints, seeds.anchorValue);
+  seedPoints(seeds.numPoints, seeds.anchorValue, seeds.climberMass);
   // console.log("seeded");
   animate();
 });
@@ -174,14 +175,14 @@ proHeight.addEventListener("change", (e) => {
   }
   loops = 0;
   startTime = undefined;
-  seedPoints(seeds.numPoints, seeds.anchorValue);
+  seedPoints(seeds.numPoints, seeds.anchorValue, seeds.climberMass);
   // console.log("seeded");
   animate();
 });
 
 const climberMass = document.getElementById("climber-mass");
 climberMass.addEventListener("change", (e) => {
-  seeds.climberMass = parseInt(e.target.value);
+  seeds.climberMass = parseInt(e.target.value) * 10;
   if (req) {
     cancelAnimationFrame(req);
   }
@@ -196,7 +197,7 @@ climberMass.addEventListener("change", (e) => {
 
 
 
-const seedPoints = (numPoints, anchorValue) => {
+const seedPoints = (numPoints, anchorValue, cMass) => {
   // console.log("numPoints", numPoints);
   ctx.clearRect(0,0,width, height);
   points = [];
@@ -259,16 +260,14 @@ const seedPoints = (numPoints, anchorValue) => {
     //   }
     // }
     //
-    // if (i === (numPoints - 1)) {
-    //   newPoint.mass = 500;
-    // }
+    if (i === (numPoints - 1)) {
+      newPoint.mass = cMass;
+    }
 
     if (i === anchorValue) {
       newPoint.pinned = true;
       newPoint.isAnchor = true;
     }
-    console.log("i:", i);
-    console.log("isAnchor:", newPoint.isAnchor);
 
     points.push(newPoint);
 
@@ -390,7 +389,7 @@ const isCollidedWith = (point, point2) => {
 
 let loops = 0;
 
-seedPoints(seeds.numPoints, seeds.anchorValue);
+seedPoints(seeds.numPoints, seeds.anchorValue, seeds.climberMass);
 // console.log("initial seed");
 
 
