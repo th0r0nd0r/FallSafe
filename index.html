@@ -6,9 +6,26 @@
   </head>
   <body>
     <canvas id="canvas" width="500" height="700"></canvas>
-    <input id="rope-length" type="range" min="2" max="100" onChange="javascript: showValue(this.value)"></input>
-    <div id="range-value">
-    </div>
+    <input id="rope-length" type="range" min="2" max="100"
+    value="50"
+    onChange="javascript: showRopeLength(this.value)"></input>
+    <div id="rope-length-value">50</div>
+
+    <input id="pro-height" type="range" min="0" max ="100"
+    value="50"
+    onChange="javascript: showProHeight(this.value)"></input>
+    <div id="pro-height-value">50</div>
+
+    <input id="climber-mass" type="range" min="0" max ="100"
+    value="50"
+    onChange="javascript: showClimberMass(this.value)"></input>
+    <div id="climber-mass-value">50</div>
+
+    <input id="strength-rating" type="range" min="0" max ="100"
+    value="50"
+    onChange="javascript: showStrengthRating(this.value)"></input>
+    <div id="strength-rating-value">50</div>
+
     <script type="application/javascript" src="bundle.js"></script>
 
   </body>

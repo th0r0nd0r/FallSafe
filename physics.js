@@ -26,8 +26,29 @@ const cancelAnimationFrame = window.cancelAnimationFrame ||
                               window.webkitCancelAnimationFrame ||
                               window.msCancelAnimationFrame;
 
+// slider functions
+
+const showRopeLength = (newLength) => {
+  document.getElementById("rope-length-value").innerHTML=newLength;
+};
+
+const showProHeight = (newHeight) => {
+  document.getElementById("pro-height-value").innerHTML=newHeight;
+};
+
+const showClimberMass = (newMass) => {
+  document.getElementById("climber-mass-value").innerHTML=newMass;
+};
+
+const showStrengthRating = (newRating) => {
+  document.getElementById("strength-rating-value").innerHTML=newRating;
+};
 
 
+window.showRopeLength = showRopeLength;
+window.showProHeight = showProHeight;
+window.showClimberMass = showClimberMass;
+window.showStrengthRating = showStrengthRating;
 
 
 
@@ -272,14 +293,7 @@ animate = (currentTime) => {
   //
   // ctx.restore();
 
-  const showValue = (newValue) => {
-    const ropelength = document.getElementById("rope-length");
-    // // console.log('range', range);
-    document.getElementById("range-value").innerHTML=newValue;
-    // console.log("newValue", newValue);
-  };
 
-  window.showValue = showValue;
 
   if (loops <= 200) {
     req = requestAnimationFrame(animate);
