@@ -212,7 +212,7 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
   let nextX = lastX;
   let nextY = lastY;
   let velocity = {x: 0, y: 0};
-  let mass = 70;
+  let mass = 20;
   let radius = 1;
 
   const restingDistance = Math.sqrt((yModifier * height) * (yModifier * height) + (xModifier * width) * (xModifier * width));
