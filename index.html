@@ -5,7 +5,11 @@
     <title>FallSafe</title>
   </head>
   <body>
-    <canvas id="canvas" width="500" height="1000"></canvas>
+    <canvas id="canvas" width="500" height="700"></canvas>
+    <input id="rope-length" type="range" min="2" max="100" onChange="javascript: showValue(this.value)"></input>
+    <div id="range-value">
+    </div>
     <script type="application/javascript" src="bundle.js"></script>
+
   </body>
 </html>

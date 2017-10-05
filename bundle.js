@@ -70,7 +70,6 @@
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__physics_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__physics_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__physics_js__);
 
 
 
@@ -91,10 +90,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__point__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__seed_data__ = __webpack_require__(4);
+
 
 
 const canvas = document.getElementById("canvas");
-// console.log("canvas",canvas);
+// // console.log("canvas",canvas);
 const ctx = canvas.getContext("2d");
 
 
@@ -104,6 +105,8 @@ const height = canvas.height;
 let startTime;
 let lastTime;
 let timeElapsed = 0;
+let req;
+let animate;
 
 
 const requestAnimationFrame = window.requestAnimationFrame ||
@@ -111,67 +114,42 @@ const requestAnimationFrame = window.requestAnimationFrame ||
                               window.webkitRequestAnimationFrame ||
                               window.msRequestAnimationFrame;
 
+const cancelAnimationFrame = window.cancelAnimationFrame ||
+                              window.mozCancelAnimationFrame ||
+                              window.webkitCancelAnimationFrame ||
+                              window.msCancelAnimationFrame;
 
-// const point = new Point({
-//   lastX: width/2,
-//   lastY: height/2,
-//   nextX: width/2,
-//   nextY: height/2,
-//   position: {x: width/2, y: height/2},
-//   velocity: {x: 0, y: 0},
-//   mass: 700,
-//   radius: 10
-// });
-//
-// const point2 = new Point({
-//   lastX: width/3,
-//   lastY: height/2,
-//   nextX: width/3,
-//   nextY: height/2,
-//   position: {x: width/3, y: height/2},
-//   velocity: {x: 0, y: 0},
-//   mass: 70000,
-//   radius: 10
-// });
-//
-// const point3 = new Point({
-//   lastX: width/3,
-//   lastY: height/2,
-//   nextX: width/4,
-//   nextY: height/3,
-//   pinned: true,
-//   position: {x: width/4, y: height/6},
-//   velocity: {x: 0, y: 0},
-//   mass: 70,
-//   radius: 10
-// });
-//
-// const point4 = new Point({
-//   lastX: width/6,
-//   lastY: height/12,
-//   nextX: width/6,
-//   nextY: height/12,
-//   position: {x: width/6, y: height/12},
-//   velocity: {x: 0, y: 0},
-//   mass: 70,
-//   radius: 10
-// });
-//
-// const point5 = new Point({
-//   lastX: (.75 * width),
-//   nextX: (.75 * width),
-//   nextY: height/12,
-//   lastY: height/12,
-//   position: {x: (.75 * width), y: height/12},
-//   velocity: {x: 0, y: 0},
-//   mass: 70,
-//   radius: 20
-// });
 
-const points = [];
+
+
+
+
+
+
+let points = [];
+const seeds = new __WEBPACK_IMPORTED_MODULE_1__seed_data__["a" /* default */]({numPoints: 50});
+
+const ropeLength = document.getElementById("rope-length");
+ropeLength.addEventListener("change", (e) => {
+  seeds.numPoints = parseInt(e.target.value);
+  loops = 0;
+  startTime = undefined;
+  seedPoints(seeds.numPoints);
+  // console.log("seeded");
+  animate();
+});
+
+
+
+
 
 const seedPoints = (numPoints) => {
-
+  // console.log("numPoints", numPoints);
+  if (req) {
+    cancelAnimationFrame(req);
+  }
+  ctx.clearRect(0,0,width, height);
+  points = [];
 
   const xModifier = 0.0025;
   const yModifier = 0.005;
@@ -189,16 +167,16 @@ const seedPoints = (numPoints) => {
   const restingDistance = Math.sqrt((yModifier * height) * (yModifier * height) + (xModifier * width) * (xModifier * width));
 
   for (let i = 0; i < numPoints; i++) {
-    console.log("x, y:", x, y);
+    // console.log("x, y:", x, y);
 
 
 
-    var position = {
+    const position = {
       x,
       y
     };
-
-    console.log("position:", position);
+    // Object.freeze(position);
+    // console.log("position:", position);
     const pointObj = {
       lastX,
       lastY,
@@ -211,11 +189,11 @@ const seedPoints = (numPoints) => {
       mass,
       radius
     };
-    console.log("pointObj:", pointObj);
+    // // console.log("pointObj:", pointObj);
 
     Object.freeze(pointObj);
     const newPoint = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */](pointObj);
-    console.log("newPoint", newPoint);
+    // console.log("newPoint", newPoint);
 
     if (i > (numPoints / 2) && i < (numPoints / 2 + 5)) {
       newPoint.pinned = true;
@@ -238,7 +216,7 @@ const seedPoints = (numPoints) => {
       points[i].addLinkTo({otherPoint: points[i - 1], restingDistance});
     }
   }
-  console.log("points:", points);
+  // console.log("points:", points);
 };
 
 const g = 9.81;
@@ -254,7 +232,7 @@ const checkCollisions = (points) => {
       const pt2 = points[j];
 
       if ((pt1 !== pt2) && isCollidedWith(pt1, pt2) && (pt1.pinned || pt2.pinned)) {
-        console.log("collision?", isCollidedWith(pt1, pt2));
+        // // console.log("collision?", isCollidedWith(pt1, pt2));
         pt1.collideWith(pt2);
         pt2.collideWith(pt1);
       }
@@ -291,15 +269,15 @@ const checkCollisions = (points) => {
 //   let lowX;
 //   let highX;
 //
-//   console.log("pinnedPt:", pinnedPt);
-//   console.log("pinnedPt.position:", pinnedPt.position);
+//   // console.log("pinnedPt:", pinnedPt);
+//   // console.log("pinnedPt.position:", pinnedPt.position);
 //
 //
 //   const pinnedPos = pinnedPt.position;
 //   const radius = pinnedPos.radius;
 //   const p1Pos = link.point1.position;
 //   const p2Pos = link.point2.position;
-//   console.log("p1Pos:", p1Pos, "p2Pos:", p2Pos);
+//   // console.log("p1Pos:", p1Pos, "p2Pos:", p2Pos);
 //
 // // getting the x bounds of the right triangle to
 // // compare with the circle
@@ -343,15 +321,24 @@ const isCollidedWith = (point, point2) => {
   }
 };
 
-seedPoints(50);
+let loops = 0;
 
-const animate = (currentTime) => {
-  // console.log("animate");
+seedPoints(seeds.numPoints);
+// console.log("initial seed");
+
+
+
+animate = (currentTime) => {
+  loops++;
+  // // console.log("loops", loops);
+  // // console.log("animate");
   if (!startTime) {
     startTime = currentTime;
     lastTime = currentTime;
   } else {
+    // console.log("currentTime", currentTime);
     timeElapsed = currentTime - lastTime;
+    // console.log("timeElapsed", timeElapsed);
     lastTime = currentTime;
 
 
@@ -378,9 +365,24 @@ const animate = (currentTime) => {
   //
   // ctx.restore();
 
+  const showValue = (newValue) => {
+    const ropelength = document.getElementById("rope-length");
+    // // console.log('range', range);
+    document.getElementById("range-value").innerHTML=newValue;
+    // console.log("newValue", newValue);
+  };
 
+  window.showValue = showValue;
 
-  requestAnimationFrame(animate);
+  if (loops <= 200) {
+    req = requestAnimationFrame(animate);
+  } else {
+    cancelAnimationFrame(req);
+    startTime = undefined;
+    loops = 0;
+    // alert("safe!");
+  }
+
 };
 
 animate();
@@ -395,24 +397,25 @@ animate();
 
 
 const canvas = document.getElementById("canvas");
-// console.log("canvas",canvas);
+// // console.log("canvas",canvas);
 const ctx = canvas.getContext("2d");
 
 class Point {
   constructor(options) {
-    console.log("options:", options);
+    // console.log("options:", options);
     this.lastX = options.lastX;
     this.lastY = options.lastY;
     this.nextX = options.nextX;
     this.nextY = options.nextY;
     this.position = options.position;
+    // console.log("pointPosition:", this.position);
     this.velocity = options.velocity;
     this.mass = options.mass;
     this.radius = options.radius;
     this.area = (Math.PI * this.radius * this.radius) / 10000;
     this.pinned = options.pinned || false;
-    this.aX = options.aX || 0;
-    this.aY = options.aY || 20.81;
+    this.aX = 0;
+    this.aY = 20.81;
     this.links = options.links || [];
 
     this.updatePos = this.updatePos.bind(this);
@@ -427,6 +430,8 @@ class Point {
   updatePos(timeElapsed) {
     // this.applyForce({x: 0, y: })
     const seconds = timeElapsed / 100;
+    // console.log("seconds", seconds);
+    // console.log("this.aX", this.aX);
 
     let deltaX = this.position.x - this.lastX;
     let deltaY = this.position.y - this.lastY;
@@ -434,9 +439,11 @@ class Point {
     // damping velocity
     deltaX *= .95;
     deltaY *= .95;
-
+    // console.log("this.position.x", this.position.x);
+    // console.log("acc component", (0.5 * this.aX * seconds * seconds));
     this.nextX = this.position.x + deltaX + (0.5 * this.aX * seconds * seconds);
     this.nextY = this.position.y + deltaY + (0.5 * this.aY * seconds * seconds);
+    // console.log("NextX:", this.nextX);
 
 
 
@@ -460,7 +467,7 @@ class Point {
   }
 
   // collideWithLink(link) {
-  //   console.log("collideLink:", link);
+  //   // console.log("collideLink:", link);
   //   debugger;
   //   link.point1.pinned = true;
   //   // link.point1.position.x = 1;
@@ -486,10 +493,10 @@ class Point {
     const restingDistance = options.restingDistance;
     // debugger;
     const newLink = new __WEBPACK_IMPORTED_MODULE_0__link__["a" /* default */]({point1: this, point2: otherPoint, restingDistance});
-    console.log("newLink:", newLink);
+    // console.log("newLink:", newLink);
     this.links.push(newLink);
     otherPoint.links.push(newLink);
-    console.log("links:", this.links);
+    // console.log("links:", this.links);
   }
 
   removeLink(link) {
@@ -529,20 +536,20 @@ class Point {
 // this tutorial by Jared Counts https://gamedevelopment.tutsplus.com/tutorials/simulate-tearable-cloth-and-ragdolls-with-simple-verlet-integration--gamedev-519
 
 const canvas = document.getElementById("canvas");
-// console.log("canvas",canvas);
+// // console.log("canvas",canvas);
 const ctx = canvas.getContext("2d");
 
 class Link {
   constructor(options) {
     this.point1 = options.point1;
     this.point2 = options.point2;
-    // console.log("linkOptionsRestingDistance:", options.restingDistance);
+    // // console.log("linkOptionsRestingDistance:", options.restingDistance);
     if (options.restingDistance) {
       this.restingDistance = options.restingDistance;
     } else {
       this.restingDistace = 100;
     }
-    // console.log("linkrestingDistance:", this.restingDistance);
+    // // console.log("linkrestingDistance:", this.restingDistance);
     this.stiffness = options.stiffness || 1;
     this.tearDist = options.tearDist || 1000000;
     this.drawThis = options.drawThis || true;
@@ -594,6 +601,20 @@ class Link {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Link);
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class SeedData {
+  constructor(options) {
+    this.numPoints = options.numPoints;
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (SeedData);
 
 
 /***/ })

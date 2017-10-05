@@ -1,7 +1,8 @@
 import Point from './point';
+import SeedData from './seed_data';
 
 const canvas = document.getElementById("canvas");
-// console.log("canvas",canvas);
+// // console.log("canvas",canvas);
 const ctx = canvas.getContext("2d");
 
 
@@ -11,6 +12,8 @@ const height = canvas.height;
 let startTime;
 let lastTime;
 let timeElapsed = 0;
+let req;
+let animate;
 
 
 const requestAnimationFrame = window.requestAnimationFrame ||
@@ -18,67 +21,42 @@ const requestAnimationFrame = window.requestAnimationFrame ||
                               window.webkitRequestAnimationFrame ||
                               window.msRequestAnimationFrame;
 
+const cancelAnimationFrame = window.cancelAnimationFrame ||
+                              window.mozCancelAnimationFrame ||
+                              window.webkitCancelAnimationFrame ||
+                              window.msCancelAnimationFrame;
 
-// const point = new Point({
-//   lastX: width/2,
-//   lastY: height/2,
-//   nextX: width/2,
-//   nextY: height/2,
-//   position: {x: width/2, y: height/2},
-//   velocity: {x: 0, y: 0},
-//   mass: 700,
-//   radius: 10
-// });
-//
-// const point2 = new Point({
-//   lastX: width/3,
-//   lastY: height/2,
-//   nextX: width/3,
-//   nextY: height/2,
-//   position: {x: width/3, y: height/2},
-//   velocity: {x: 0, y: 0},
-//   mass: 70000,
-//   radius: 10
-// });
-//
-// const point3 = new Point({
-//   lastX: width/3,
-//   lastY: height/2,
-//   nextX: width/4,
-//   nextY: height/3,
-//   pinned: true,
-//   position: {x: width/4, y: height/6},
-//   velocity: {x: 0, y: 0},
-//   mass: 70,
-//   radius: 10
-// });
-//
-// const point4 = new Point({
-//   lastX: width/6,
-//   lastY: height/12,
-//   nextX: width/6,
-//   nextY: height/12,
-//   position: {x: width/6, y: height/12},
-//   velocity: {x: 0, y: 0},
-//   mass: 70,
-//   radius: 10
-// });
-//
-// const point5 = new Point({
-//   lastX: (.75 * width),
-//   nextX: (.75 * width),
-//   nextY: height/12,
-//   lastY: height/12,
-//   position: {x: (.75 * width), y: height/12},
-//   velocity: {x: 0, y: 0},
-//   mass: 70,
-//   radius: 20
-// });
 
-const points = [];
+
+
+
+
+
+
+let points = [];
+const seeds = new SeedData({numPoints: 50});
+
+const ropeLength = document.getElementById("rope-length");
+ropeLength.addEventListener("change", (e) => {
+  seeds.numPoints = parseInt(e.target.value);
+  loops = 0;
+  startTime = undefined;
+  seedPoints(seeds.numPoints);
+  // console.log("seeded");
+  animate();
+});
+
+
+
+
 
 const seedPoints = (numPoints) => {
-
+  // console.log("numPoints", numPoints);
+  if (req) {
+    cancelAnimationFrame(req);
+  }
+  ctx.clearRect(0,0,width, height);
+  points = [];
 
   const xModifier = 0.0025;
   const yModifier = 0.005;
@@ -96,16 +74,16 @@ const seedPoints = (numPoints) => {
   const restingDistance = Math.sqrt((yModifier * height) * (yModifier * height) + (xModifier * width) * (xModifier * width));
 
   for (let i = 0; i < numPoints; i++) {
-    console.log("x, y:", x, y);
+    // console.log("x, y:", x, y);
 
 
 
-    var position = {
+    const position = {
       x,
       y
     };
-
-    console.log("position:", position);
+    // Object.freeze(position);
+    // console.log("position:", position);
     const pointObj = {
       lastX,
       lastY,
@@ -118,11 +96,11 @@ const seedPoints = (numPoints) => {
       mass,
       radius
     };
-    console.log("pointObj:", pointObj);
+    // // console.log("pointObj:", pointObj);
 
     Object.freeze(pointObj);
     const newPoint = new Point(pointObj);
-    console.log("newPoint", newPoint);
+    // console.log("newPoint", newPoint);
 
     if (i > (numPoints / 2) && i < (numPoints / 2 + 5)) {
       newPoint.pinned = true;
@@ -145,7 +123,7 @@ const seedPoints = (numPoints) => {
       points[i].addLinkTo({otherPoint: points[i - 1], restingDistance});
     }
   }
-  console.log("points:", points);
+  // console.log("points:", points);
 };
 
 const g = 9.81;
@@ -161,7 +139,7 @@ const checkCollisions = (points) => {
       const pt2 = points[j];
 
       if ((pt1 !== pt2) && isCollidedWith(pt1, pt2) && (pt1.pinned || pt2.pinned)) {
-        console.log("collision?", isCollidedWith(pt1, pt2));
+        // // console.log("collision?", isCollidedWith(pt1, pt2));
         pt1.collideWith(pt2);
         pt2.collideWith(pt1);
       }
@@ -198,15 +176,15 @@ const checkCollisions = (points) => {
 //   let lowX;
 //   let highX;
 //
-//   console.log("pinnedPt:", pinnedPt);
-//   console.log("pinnedPt.position:", pinnedPt.position);
+//   // console.log("pinnedPt:", pinnedPt);
+//   // console.log("pinnedPt.position:", pinnedPt.position);
 //
 //
 //   const pinnedPos = pinnedPt.position;
 //   const radius = pinnedPos.radius;
 //   const p1Pos = link.point1.position;
 //   const p2Pos = link.point2.position;
-//   console.log("p1Pos:", p1Pos, "p2Pos:", p2Pos);
+//   // console.log("p1Pos:", p1Pos, "p2Pos:", p2Pos);
 //
 // // getting the x bounds of the right triangle to
 // // compare with the circle
@@ -250,15 +228,24 @@ const isCollidedWith = (point, point2) => {
   }
 };
 
-seedPoints(50);
+let loops = 0;
 
-const animate = (currentTime) => {
-  // console.log("animate");
+seedPoints(seeds.numPoints);
+// console.log("initial seed");
+
+
+
+animate = (currentTime) => {
+  loops++;
+  // // console.log("loops", loops);
+  // // console.log("animate");
   if (!startTime) {
     startTime = currentTime;
     lastTime = currentTime;
   } else {
+    // console.log("currentTime", currentTime);
     timeElapsed = currentTime - lastTime;
+    // console.log("timeElapsed", timeElapsed);
     lastTime = currentTime;
 
 
@@ -285,9 +272,24 @@ const animate = (currentTime) => {
   //
   // ctx.restore();
 
+  const showValue = (newValue) => {
+    const ropelength = document.getElementById("rope-length");
+    // // console.log('range', range);
+    document.getElementById("range-value").innerHTML=newValue;
+    // console.log("newValue", newValue);
+  };
 
+  window.showValue = showValue;
 
-  requestAnimationFrame(animate);
+  if (loops <= 200) {
+    req = requestAnimationFrame(animate);
+  } else {
+    cancelAnimationFrame(req);
+    startTime = undefined;
+    loops = 0;
+    // alert("safe!");
+  }
+
 };
 
 animate();
