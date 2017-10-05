@@ -148,14 +148,33 @@ window.showStrengthRating = showStrengthRating;
 
 
 let points = [];
-const seeds = new __WEBPACK_IMPORTED_MODULE_1__seed_data__["a" /* default */]({numPoints: 50});
+const seeds = new __WEBPACK_IMPORTED_MODULE_1__seed_data__["a" /* default */]({
+  numPoints: 50,
+  anchorValue: 25,
+});
 
 const ropeLength = document.getElementById("rope-length");
 ropeLength.addEventListener("change", (e) => {
   seeds.numPoints = parseInt(e.target.value);
+  if (req) {
+    cancelAnimationFrame(req);
+  }
   loops = 0;
   startTime = undefined;
-  seedPoints(seeds.numPoints);
+  seedPoints(seeds.numPoints, seeds.anchorValue);
+  // console.log("seeded");
+  animate();
+});
+
+const proHeight = document.getElementById("pro-height");
+proHeight.addEventListener("change", (e) => {
+  seeds.anchorValue = parseInt(e.target.value);
+  if (req) {
+    cancelAnimationFrame(req);
+  }
+  loops = 0;
+  startTime = undefined;
+  seedPoints(seeds.numPoints, seeds.anchorValue);
   // console.log("seeded");
   animate();
 });
@@ -164,11 +183,8 @@ ropeLength.addEventListener("change", (e) => {
 
 
 
-const seedPoints = (numPoints) => {
+const seedPoints = (numPoints, anchorValue) => {
   // console.log("numPoints", numPoints);
-  if (req) {
-    cancelAnimationFrame(req);
-  }
   ctx.clearRect(0,0,width, height);
   points = [];
 
@@ -216,21 +232,30 @@ const seedPoints = (numPoints) => {
     const newPoint = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */](pointObj);
     // console.log("newPoint", newPoint);
 
-    if (numPoints % 2 === 0) {
-      if (i === (numPoints / 2)) {
-        newPoint.pinned = true;
-        newPoint.isAnchor = true;
-      }
-    } else {
-      if (i === (numPoints / 2 + 0.5)) {
-        newPoint.pinned = true;
-        newPoint.isAnchor = true;
-      }
-    }
 
-    if (i === (numPoints - 1)) {
-      newPoint.mass = 500;
+  // puts pro at half of rope length
+    // if (numPoints % 2 === 0) {
+    //   if (i === (numPoints / 2)) {
+    //     newPoint.pinned = true;
+    //     newPoint.isAnchor = true;
+    //   }
+    // } else {
+    //   if (i === (numPoints / 2 + 0.5)) {
+    //     newPoint.pinned = true;
+    //     newPoint.isAnchor = true;
+    //   }
+    // }
+    //
+    // if (i === (numPoints - 1)) {
+    //   newPoint.mass = 500;
+    // }
+
+    if (i === anchorValue) {
+      newPoint.pinned = true;
+      newPoint.isAnchor = true;
     }
+    console.log("i:", i);
+    console.log("isAnchor:", newPoint.isAnchor);
 
     points.push(newPoint);
 
@@ -352,7 +377,7 @@ const isCollidedWith = (point, point2) => {
 
 let loops = 0;
 
-seedPoints(seeds.numPoints);
+seedPoints(seeds.numPoints, seeds.anchorValue);
 // console.log("initial seed");
 
 
@@ -636,6 +661,7 @@ class Link {
 class SeedData {
   constructor(options) {
     this.numPoints = options.numPoints;
+    this.anchorValue = options.anchorValue;
   }
 }
 
