@@ -21,6 +21,7 @@ class Point {
     this.aX = 0;
     this.aY = 20.81;
     this.links = options.links || [];
+    this.isAnchor = false;
 
     this.updatePos = this.updatePos.bind(this);
     this.collideWith = this.collideWith.bind(this);
@@ -111,12 +112,14 @@ class Point {
     // debugger;
     // ctx.translate(point.position.x, point.position.y);
     // ctx.clearRect(0,0,width, height);
-    ctx.fillStyle = 'blue';
-    ctx.strokeStyle = '#000000';
-    // ctx.beginPath();
-    // ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI*2, true);
-    // ctx.fill();
-    // ctx.closePath();
+    if (this.isAnchor) {
+      ctx.fillStyle = 'black';
+      ctx.strokeStyle = '#000000';
+      ctx.beginPath();
+      ctx.arc(this.position.x, this.position.y, this.radius * 5, 0, Math.PI*2, true);
+      ctx.fill();
+      ctx.closePath();
+    }
 
     const links = this.links;
 

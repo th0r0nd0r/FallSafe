@@ -90,7 +90,7 @@ const seedPoints = (numPoints) => {
   let nextY = lastY;
   let velocity = {x: 0, y: 0};
   let mass = 70;
-  let radius = 2;
+  let radius = 1;
 
   const restingDistance = Math.sqrt((yModifier * height) * (yModifier * height) + (xModifier * width) * (xModifier * width));
 
@@ -123,8 +123,16 @@ const seedPoints = (numPoints) => {
     const newPoint = new Point(pointObj);
     // console.log("newPoint", newPoint);
 
-    if (i > (numPoints / 2) && i < (numPoints / 2 + 5)) {
-      newPoint.pinned = true;
+    if (numPoints % 2 === 0) {
+      if (i === (numPoints / 2)) {
+        newPoint.pinned = true;
+        newPoint.isAnchor = true;
+      }
+    } else {
+      if (i === (numPoints / 2 + 0.5)) {
+        newPoint.pinned = true;
+        newPoint.isAnchor = true;
+      }
     }
 
     if (i === (numPoints - 1)) {
