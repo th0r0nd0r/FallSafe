@@ -465,7 +465,7 @@ animate = (currentTime) => {
             points[j].mass = 10;
             points[j].aY = 0;
         }
-      } else {
+      } else if (climberHeight > points[points.length - 2].position.y){
         points[seeds.anchorValue].pinned = false;
       }
       }
