@@ -1,17 +1,21 @@
 body {
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
 }
 
 canvas {
-  margin:20px auto;
+  display: inline-block;
+  margin:10px;
   border:1px solid #666;
   height:700px;
-  width:500px;
+  width:1000px;
 }
 
 .slider-bars {
+  margin-left: 25px;
+  order: -1;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;

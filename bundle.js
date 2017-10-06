@@ -205,7 +205,7 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
   const xModifier = 0.00125;
   const yModifier = 0.0025;
 
-  let lastX = (.75 * width);
+  let lastX = (.5 * width);
   let lastY = (0.4 * height);
   var x = lastX;
   var y = lastY;
