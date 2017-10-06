@@ -22,6 +22,7 @@ class Point {
     this.aY = 20.81;
     this.links = options.links || [];
     this.isAnchor = false;
+    console.log("a point", this);
 
     this.updatePos = this.updatePos.bind(this);
     this.collideWith = this.collideWith.bind(this);

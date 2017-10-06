@@ -112,6 +112,9 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
   const xModifier = 0.00125;
   const yModifier = 0.0025;
 
+  const staticXModifier = 0.005;
+  const staticYModifier = 0.01;
+
   let lastX = (.5 * width);
   let lastY = (0.4 * height);
   var x = lastX;
@@ -122,7 +125,10 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
   let mass = 20;
   let radius = 1;
 
+  const staticRestingDistance = Math.sqrt((staticYModifier * height) * (staticYModifier * height) + (staticXModifier * width) * (staticXModifier * width));
   const restingDistance = Math.sqrt((yModifier * height) * (yModifier * height) + (xModifier * width) * (xModifier * width));
+  console.log("staticrestingdistance", staticRestingDistance);
+  console.log("restingDistance", restingDistance);
   let anchorPoint;
   for (let i = 0; i < numPoints; i++) {
     // // console.log("x, y:", x, y);
@@ -175,6 +181,7 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
     if (i < anchorValue) {
       newPoint.mass = 1;
       newPoint.aY = 2;
+      newPoint.isAnchor = true;
     }
 
     if (i === (numPoints - 1)) {
@@ -188,16 +195,28 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
 
     points.push(newPoint);
 
-    lastX -= (xModifier * width);
-    lastY -= (yModifier * height);
-    nextX -= (xModifier * width);
-    nextY -= (yModifier * height);
-    x -= (xModifier * width);
-    y -= (yModifier * height);
 
-    if (points.length > 1) {
-      points[i].addLinkTo({otherPoint: points[i - 1], restingDistance});
+      if (i >= seeds.anchorValue) {
+        lastX -= (xModifier * width);
+        lastY -= (yModifier * height);
+        nextX -= (xModifier * width);
+        nextY -= (yModifier * height);
+        x -= (xModifier * width);
+        y -= (yModifier * height);
+        points[i].addLinkTo({otherPoint: points[i - 1], restingDistance});
+      } else {
+        lastX -= (staticXModifier * width);
+        console.log("lastX", lastX);
+        lastY -= (staticYModifier * height);
+        nextX -= (staticXModifier * width);
+        nextY -= (staticYModifier * height);
+        x -= (staticXModifier * width);
+        y -= (staticYModifier * height);
+        if (points.length > 1) {
+        points[i].addLinkTo({otherPoint: points[i - 1], staticRestingDistance});
+      }
     }
+    console.log("points:", points);
   }
 
 
