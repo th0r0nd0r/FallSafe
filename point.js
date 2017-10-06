@@ -21,7 +21,11 @@ class Point {
     this.aX = 0;
     this.aY = 20.81;
     this.links = options.links || [];
-    this.isAnchor = false;
+    if (options.isAnchor) {
+      this.isAnchor = options.isAnchor;
+    } else {
+      this.isAnchor = false;
+    }
 
     this.updatePos = this.updatePos.bind(this);
     this.collideWith = this.collideWith.bind(this);
