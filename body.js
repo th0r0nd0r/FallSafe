@@ -111,6 +111,33 @@ class Body {
     this.rightFoot.addLinkTo({otherPoint: this.rightKnee, restingDistance: restingDistance(this.rightFoot, this.rightKnee)});
   }
 
+  updatePos(timeElapsed) {
+    this.head.updatePos(timeElapsed);
+    this.shoulder.updatePos(timeElapsed);
+    this.pelvis.updatePos(timeElapsed);
+    this.leftElbow.updatePos(timeElapsed);
+    this.rightElbow.updatePos(timeElapsed);
+    this.leftHand.updatePos(timeElapsed);
+    this.rightHand.updatePos(timeElapsed);
+    this.leftKnee.updatePos(timeElapsed);
+    this.rightKnee.updatePos(timeElapsed);
+    this.leftFoot.updatePos(timeElapsed);
+    this.rightFoot.updatePos(timeElapsed);
+  }
+
+  render() {
+    this.head.render();
+    this.shoulder.render();
+    this.pelvis.render();
+    this.leftElbow.render();
+    this.rightElbow.render();
+    this.leftHand.render();
+    this.rightHand.render();
+    this.leftKnee.render();
+    this.rightKnee.render();
+    this.leftFoot.render();
+    this.rightFoot.render();
+  }
 }
 
 export default Body;

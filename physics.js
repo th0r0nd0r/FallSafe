@@ -1,5 +1,6 @@
 import Point from './point';
 import SeedData from './seed_data';
+import Body from './body';
 
 const canvas = document.getElementById("canvas");
 // // // console.log("canvas",canvas);
