@@ -5,3 +5,8 @@ canvas {
   height:400px;
   width:500px;
 }
+
+.slider {
+  display: flex;
+  flex-flow: column nowrap;
+}

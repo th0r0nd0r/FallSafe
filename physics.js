@@ -29,19 +29,19 @@ const cancelAnimationFrame = window.cancelAnimationFrame ||
 // slider functions
 
 const showRopeLength = (newLength) => {
-  document.getElementById("rope-length-value").innerHTML=newLength;
+  document.getElementById("rope-length-value").innerHTML=`${newLength} m`;
 };
 
 const showProHeight = (newHeight) => {
-  document.getElementById("pro-height-value").innerHTML=newHeight;
+  document.getElementById("pro-height-value").innerHTML=`${newHeight} m`;
 };
 
 const showClimberMass = (newMass) => {
-  document.getElementById("climber-mass-value").innerHTML=newMass;
+  document.getElementById("climber-mass-value").innerHTML=`${newMass} kg`;
 };
 
 const showStrengthRating = (newRating) => {
-  document.getElementById("strength-rating-value").innerHTML=newRating;
+  document.getElementById("strength-rating-value").innerHTML=`${newRating} kN`;
 };
 
 
@@ -123,7 +123,7 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
   let radius = 1;
 
   const restingDistance = Math.sqrt((yModifier * height) * (yModifier * height) + (xModifier * width) * (xModifier * width));
-
+  let anchorPoint;
   for (let i = 0; i < numPoints; i++) {
     // console.log("x, y:", x, y);
 
@@ -190,9 +190,24 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
     }
   }
   // console.log("points:", points);
+  // console.log("anchorPoint", anchorPoint);
+  // anchorPoint = new Point({
+  //     lastX: points[anchorValue].lastX,
+  //     lastY: (points[anchorValue].lastY + 100),
+  //     nextX: points[anchorValue].nextX,
+  //     nextY: (points[anchorValue].lastY + 100),
+  //     position: points[anchorValue].position,
+  //     velocity: points[anchorValue].velocity,
+  //     mass: points[anchorValue].mass,
+  //     radius: points[anchorValue].radius
+  // });
+  // anchorPoint.pinned = true;
+  // anchorPoint.isAnchor = true;
+  // anchorPoint.position.y = (anchorPoint.lastY);
+  // anchorPoint.nextY = (anchorPoint.lastY);
+  // points.push(anchorPoint);
 };
 
-const g = 9.81;
 
 // point.addLinkTo({otherPoint: point3, restingDistance: 50});
 // point.addLinkTo({otherPoint: point2, restingDistance: 50});
@@ -344,9 +359,19 @@ animate = (currentTime) => {
     req = requestAnimationFrame(animate);
   } else {
     cancelAnimationFrame(req);
+    const {numPoints, anchorValue, climberMass, strengthRating} = seeds;
     startTime = undefined;
+    const g = points[points.length - 1].aY;
     loops = 0;
-    // alert("safe!");
+    // force of fall
+    const forceIsh = 2 * climberMass * g * numPoints * (strengthRating / 8);
+    // force piece can take
+    const compareForce = 2 * climberMass * g * anchorValue * (strengthRating / 8);
+    if (forceIsh <= compareForce) {
+      alert("safe!");
+    } else {
+      alert("not safe!");
+    }
   }
 
 };
