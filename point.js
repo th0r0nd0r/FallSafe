@@ -1,18 +1,18 @@
 import Link from './link';
 
 const canvas = document.getElementById("canvas");
-// // console.log("canvas",canvas);
+// // // console.log("canvas",canvas);
 const ctx = canvas.getContext("2d");
 
 class Point {
   constructor(options) {
-    // console.log("options:", options);
+    // // console.log("options:", options);
     this.lastX = options.lastX;
     this.lastY = options.lastY;
     this.nextX = options.nextX;
     this.nextY = options.nextY;
     this.position = options.position;
-    // console.log("pointPosition:", this.position);
+    // // console.log("pointPosition:", this.position);
     this.velocity = options.velocity;
     this.mass = options.mass;
     this.radius = options.radius;
@@ -35,8 +35,8 @@ class Point {
   updatePos(timeElapsed) {
     // this.applyForce({x: 0, y: })
     const seconds = timeElapsed / 100;
-    // console.log("seconds", seconds);
-    // console.log("this.aX", this.aX);
+    // // console.log("seconds", seconds);
+    // // console.log("this.aX", this.aX);
 
     let deltaX = this.position.x - this.lastX;
     let deltaY = this.position.y - this.lastY;
@@ -44,11 +44,11 @@ class Point {
     // damping velocity
     deltaX *= .95;
     deltaY *= .95;
-    // console.log("this.position.x", this.position.x);
-    // console.log("acc component", (0.5 * this.aX * seconds * seconds));
+    // // console.log("this.position.x", this.position.x);
+    // // console.log("acc component", (0.5 * this.aX * seconds * seconds));
     this.nextX = this.position.x + deltaX + (0.5 * this.aX * seconds * seconds);
     this.nextY = this.position.y + deltaY + (0.5 * this.aY * seconds * seconds);
-    // console.log("NextX:", this.nextX);
+    // // console.log("NextX:", this.nextX);
 
 
 
@@ -72,7 +72,7 @@ class Point {
   }
 
   // collideWithLink(link) {
-  //   // console.log("collideLink:", link);
+  //   // // console.log("collideLink:", link);
   //   debugger;
   //   link.point1.pinned = true;
   //   // link.point1.position.x = 1;
@@ -98,10 +98,10 @@ class Point {
     const restingDistance = options.restingDistance;
     // debugger;
     const newLink = new Link({point1: this, point2: otherPoint, restingDistance});
-    // console.log("newLink:", newLink);
+    // // console.log("newLink:", newLink);
     this.links.push(newLink);
     otherPoint.links.push(newLink);
-    // console.log("links:", this.links);
+    // // console.log("links:", this.links);
   }
 
   removeLink(link) {
