@@ -151,7 +151,8 @@ let points = [];
 const seeds = new __WEBPACK_IMPORTED_MODULE_1__seed_data__["a" /* default */]({
   numPoints: 50,
   anchorValue: 25,
-  climberMass: 300
+  climberMass: 300,
+  strengthRating: 12
 });
 
 const ropeLength = document.getElementById("rope-length");
@@ -180,9 +181,9 @@ proHeight.addEventListener("change", (e) => {
   animate();
 });
 
-const climberMass = document.getElementById("climber-mass");
-climberMass.addEventListener("change", (e) => {
-  seeds.climberMass = parseInt(e.target.value) * 10;
+const strengthRating = document.getElementById("strength-rating");
+strengthRating.addEventListener("change", (e) => {
+  seeds.strengthRating = parseInt(e.target.value);
   if (req) {
     cancelAnimationFrame(req);
   }
@@ -457,9 +458,11 @@ animate = (currentTime) => {
     const g = points[points.length - 1].aY;
     loops = 0;
     // force of fall
-    const forceIsh = 2 * climberMass * g * numPoints * (strengthRating / 8);
+    const forceIsh = 2 * climberMass * g * numPoints / 2;
+    console.log("forceIsh", forceIsh);
     // force piece can take
     const compareForce = 2 * climberMass * g * anchorValue * (strengthRating / 8);
+    console.log("compareForce", compareForce);
     if (forceIsh <= compareForce) {
       alert("safe!");
     } else {
