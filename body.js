@@ -1,8 +1,8 @@
 import Point from './point';
 
 class Body {
-  constructor(options, XModifier, YModifier) {
-    this.pelvis = options.pelvis;
+  constructor(pelvis, XModifier, YModifier) {
+    this.pelvis = pelvis;
     this.shoulder = new Point({
       lastX: this.pelvis.lastX - (15 * XModifier),
       lastY: this.pelvis.lastY - (15 * YModifier),
@@ -137,6 +137,20 @@ class Body {
     this.rightKnee.render();
     this.leftFoot.render();
     this.rightFoot.render();
+  }
+
+  solveLinkConstraints() {
+    this.head.solveLinkConstraints();
+    this.shoulder.solveLinkConstraints();
+    this.pelvis.solveLinkConstraints();
+    this.leftElbow.solveLinkConstraints();
+    this.rightElbow.solveLinkConstraints();
+    this.leftHand.solveLinkConstraints();
+    this.rightHand.solveLinkConstraints();
+    this.leftKnee.solveLinkConstraints();
+    this.rightKnee.solveLinkConstraints();
+    this.leftFoot.solveLinkConstraints();
+    this.rightFoot.solveLinkConstraints();
   }
 }
 

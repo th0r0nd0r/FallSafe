@@ -56,6 +56,7 @@ window.showStrengthRating = showStrengthRating;
 
 
 let points = [];
+let body;
 const seeds = new SeedData({
   numPoints: 50,
   anchorValue: 25,
@@ -199,6 +200,8 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
     if (points.length > 1) {
       points[i].addLinkTo({otherPoint: points[i - 1], restingDistance});
     }
+
+    body = new Body(points[points.length - 1], 1, 1);
   }
 
 
@@ -377,18 +380,20 @@ animate = (currentTime) => {
         points[seeds.anchorValue].pinned = false;
       }
       }
+      body.updatePos(timeElapsed);
     }
 
     for (let i = 0; i < points.length; i++) {
       points[i].solveLinkConstraints();
     }
-
+    body.solveLinkConstraints();
 
     checkCollisions(points);
     // checkLinkCollisions(points);
 
     for (let i = 0; i < points.length; i++) {
       points[i].render();
+      body.render();
     }
   }
 

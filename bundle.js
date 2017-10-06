@@ -150,6 +150,7 @@ window.showStrengthRating = showStrengthRating;
 
 
 let points = [];
+let body;
 const seeds = new __WEBPACK_IMPORTED_MODULE_1__seed_data__["a" /* default */]({
   numPoints: 50,
   anchorValue: 25,
@@ -293,6 +294,8 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
     if (points.length > 1) {
       points[i].addLinkTo({otherPoint: points[i - 1], restingDistance});
     }
+
+    body = new __WEBPACK_IMPORTED_MODULE_2__body__["a" /* default */](points[points.length - 1], 1, 1);
   }
 
 
@@ -471,18 +474,20 @@ animate = (currentTime) => {
         points[seeds.anchorValue].pinned = false;
       }
       }
+      body.updatePos(timeElapsed);
     }
 
     for (let i = 0; i < points.length; i++) {
       points[i].solveLinkConstraints();
     }
-
+    body.solveLinkConstraints();
 
     checkCollisions(points);
     // checkLinkCollisions(points);
 
     for (let i = 0; i < points.length; i++) {
       points[i].render();
+      body.render();
     }
   }
 
@@ -759,8 +764,8 @@ class SeedData {
 
 
 class Body {
-  constructor(options, XModifier, YModifier) {
-    this.pelvis = options.pelvis;
+  constructor(pelvis, XModifier, YModifier) {
+    this.pelvis = pelvis;
     this.shoulder = new __WEBPACK_IMPORTED_MODULE_0__point__["a" /* default */]({
       lastX: this.pelvis.lastX - (15 * XModifier),
       lastY: this.pelvis.lastY - (15 * YModifier),
@@ -896,9 +901,23 @@ class Body {
     this.leftFoot.render();
     this.rightFoot.render();
   }
+
+  solveLinkConstraints() {
+    this.head.solveLinkConstraints();
+    this.shoulder.solveLinkConstraints();
+    this.pelvis.solveLinkConstraints();
+    this.leftElbow.solveLinkConstraints();
+    this.rightElbow.solveLinkConstraints();
+    this.leftHand.solveLinkConstraints();
+    this.rightHand.solveLinkConstraints();
+    this.leftKnee.solveLinkConstraints();
+    this.rightKnee.solveLinkConstraints();
+    this.leftFoot.solveLinkConstraints();
+    this.rightFoot.solveLinkConstraints();
+  }
 }
 
-/* unused harmony default export */ var _unused_webpack_default_export = (Body);
+/* harmony default export */ __webpack_exports__["a"] = (Body);
 
 
 /***/ })
