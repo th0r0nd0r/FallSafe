@@ -19,7 +19,11 @@ class Point {
     this.area = (Math.PI * this.radius * this.radius) / 10000;
     this.pinned = options.pinned || false;
     this.aX = 0;
-    this.aY = 20.81;
+    if (options.aY) {
+      this.aY = options.aY;
+    } else {
+      this.aY = 20.81;
+    }
     this.links = options.links || [];
     if (options.isAnchor) {
       this.isAnchor = options.isAnchor;

@@ -3,7 +3,9 @@ import Point from './point';
 class Body {
   constructor(pelvis, XModifier, YModifier) {
     this.pelvis = pelvis;
+    console.log("pelvis:", this.pelvis);
     this.shoulder = new Point({
+      // aY: .0001
       lastX: this.pelvis.lastX - (15 * XModifier),
       lastY: this.pelvis.lastY - (15 * YModifier),
       nextX: this.pelvis.lastX - (15 * XModifier),
@@ -13,16 +15,18 @@ class Body {
       radius: 1
     });
     this.head = new Point({
+      // aY: .0001
       lastX: this.shoulder.lastX - (5 * XModifier),
       lastY: this.shoulder.lastY - (5 * YModifier),
       nextX: this.shoulder.lastX - (5 * XModifier),
       nextY: this.shoulder.lastY - (5 * YModifier),
       position: {x: this.shoulder.position.x - (5 * XModifier), y: this.shoulder.position.y - (5 * YModifier)},
       mass: 6,
-      radius: 4,
+      radius: 1.5,
       isAnchor: true
     });
     this.leftElbow = new Point({
+      // aY: .0001
       lastX: this.shoulder.lastX + (7 * XModifier),
       lastY: this.shoulder.lastY - (7 * YModifier),
       nextX: this.shoulder.lastX + (7 * XModifier),
@@ -32,6 +36,7 @@ class Body {
       radius: 1,
     });
     this.rightElbow = new Point({
+      // aY: .0001
       lastX: this.shoulder.lastX + (6 * XModifier),
       lastY: this.shoulder.lastY - (8 * YModifier),
       nextX: this.shoulder.lastX + (6 * XModifier),
@@ -41,6 +46,7 @@ class Body {
       radius: 1,
     });
     this.leftHand = new Point({
+      // aY: .0001
       lastX: this.leftElbow.lastX + (6 * XModifier),
       lastY: this.leftElbow.lastY - (8 * YModifier),
       nextX: this.leftElbow.lastX + (6 * XModifier),
@@ -50,6 +56,7 @@ class Body {
       radius: 1,
     });
     this.rightHand = new Point({
+      // aY: .0001
       lastX: this.rightElbow.lastX + (7 * XModifier),
       lastY: this.rightElbow.lastY - (7 * YModifier),
       nextX: this.rightElbow.lastX + (7 * XModifier),
@@ -59,6 +66,7 @@ class Body {
       radius: 1,
     });
     this.leftKnee = new Point({
+      // aY: .0001
       lastX: this.pelvis.lastX + (7 * XModifier),
       lastY: this.pelvis.lastY + (7 * YModifier),
       nextX: this.pelvis.lastX + (7 * XModifier),
@@ -68,6 +76,7 @@ class Body {
       radius: 1,
     });
     this.rightKnee = new Point({
+      // aY: .0001
       lastX: this.pelvis.lastX + (5 * XModifier),
       lastY: this.pelvis.lastY + (9 * YModifier),
       nextX: this.pelvis.lastX + (5 * XModifier),
@@ -77,6 +86,7 @@ class Body {
       radius: 1,
     });
     this.leftFoot = new Point({
+      // aY: .0001
       lastX: this.leftKnee.lastX + (5 * XModifier),
       lastY: this.leftKnee.lastY + (9 * YModifier),
       nextX: this.leftKnee.lastX + (5 * XModifier),
@@ -86,6 +96,7 @@ class Body {
       radius: 1,
     });
     this.rightFoot = new Point({
+      // aY: .0001
       lastX: this.rightKnee.lastX + (5 * XModifier),
       lastY: this.rightKnee.lastY + (9 * YModifier),
       nextX: this.rightKnee.lastX + (5 * XModifier),
@@ -96,7 +107,7 @@ class Body {
     });
 
     const restingDistance = (p1, p2) => {
-      Math.sqrt((p1.position.x - p2.position.x)(p1.position.x - p2.position.x) + (p1.position.y - p2.position.y)(p1.position.y - p2.position.y));
+      return(Math.sqrt((p1.position.x - p2.position.x) * (p1.position.x - p2.position.x) + (p1.position.y - p2.position.y) * (p1.position.y - p2.position.y)));
     };
 
     this.head.addLinkTo({otherPoint: this.shoulder, restingDistance: restingDistance(this.head, this.shoulder)});

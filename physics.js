@@ -125,7 +125,6 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
   let radius = 1;
 
   const restingDistance = Math.sqrt((yModifier * height) * (yModifier * height) + (xModifier * width) * (xModifier * width));
-  let anchorPoint;
   for (let i = 0; i < numPoints; i++) {
     // // console.log("x, y:", x, y);
 
@@ -186,12 +185,16 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
     if (i === anchorValue) {
       newPoint.pinned = true;
       newPoint.isAnchor = true;
+    } else {
+      newPoint.pinned = false;
+      newPoint.isAnchor = false;
     }
 
     points.push(newPoint);
 
     lastX -= (xModifier * width);
     lastY -= (yModifier * height);
+    console.log("currentPoint:", newPoint, "i:", i, "lastY:", lastY);
     nextX -= (xModifier * width);
     nextY -= (yModifier * height);
     x -= (xModifier * width);
@@ -200,34 +203,14 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
     if (points.length > 1) {
       points[i].addLinkTo({otherPoint: points[i - 1], restingDistance});
     }
+    // debugger;
 
-    body = new Body(points[points.length - 1], 1, 1);
   }
-
-
-  // // console.log("points:", points);
-  // // console.log("anchorPoint", anchorPoint);
-  // anchorPoint = new Point({
-  //     lastX: points[anchorValue].lastX,
-  //     lastY: (points[anchorValue].lastY + 100),
-  //     nextX: points[anchorValue].nextX,
-  //     nextY: (points[anchorValue].lastY + 100),
-  //     position: points[anchorValue].position,
-  //     velocity: points[anchorValue].velocity,
-  //     mass: points[anchorValue].mass,
-  //     radius: points[anchorValue].radius
-  // });
-  // anchorPoint.pinned = true;
-  // anchorPoint.isAnchor = true;
-  // anchorPoint.position.y = (anchorPoint.lastY);
-  // anchorPoint.nextY = (anchorPoint.lastY);
-  // points.push(anchorPoint);
+  console.log("points before body:", points);
+  body = new Body(points[points.length - 1], 1, 1);
+  console.log("points:", points);
+  console.log("body:", body);
 };
-
-
-// point.addLinkTo({otherPoint: point3, restingDistance: 50});
-// point.addLinkTo({otherPoint: point2, restingDistance: 50});
-// point4.addLinkTo({otherPoint: point5, restingDistance: (Math.abs(point4.position.x - point5.position.x))});
 
 const checkCollisions = (points) => {
   for (let i = 0; i < (points.length - 1); i++) {
@@ -244,71 +227,7 @@ const checkCollisions = (points) => {
   }
 };
 
-// const checkLinkCollisions = (points) => {
-//   const links = [];
-//   const pinned = [];
-//   for (let i = 0; i < points.length; i++) {
-//     if (points[i].pinned) {
-//       pinned.push(points[i]);
-//     }
-//     points[i].links.forEach((link) => {
-//       links.push(link);
-//     });
-//   }
-//   // debugger;
-//   for (let i = 0; i < pinned.length; i++) {
-//     for (let j = 0; j < links.length; j++) {
-//       let pinnedPt = pinned[i];
-//       let link = links[j];
-//       if ((link.point1 !== pinnedPt) && (link.point2 !== pinnedPt)) {
-//         if (isCollidedWithLink(pinnedPt, link)) {
-//           pinnedPt.collideWithLink(link);
-//         }
-//       }
-//     }
-//   }
-// };
-//
-// const isCollidedWithLink = (pinnedPt, link) => {
-//   let lowX;
-//   let highX;
-//
-//   // // console.log("pinnedPt:", pinnedPt);
-//   // // console.log("pinnedPt.position:", pinnedPt.position);
-//
-//
-//   const pinnedPos = pinnedPt.position;
-//   const radius = pinnedPos.radius;
-//   const p1Pos = link.point1.position;
-//   const p2Pos = link.point2.position;
-//   // // console.log("p1Pos:", p1Pos, "p2Pos:", p2Pos);
-//
-// // getting the x bounds of the right triangle to
-// // compare with the circle
-//   if (p1Pos.x < p2Pos.x) {
-//     lowX = p1Pos.x;
-//     highX = p2Pos.x;
-//   } else {
-//     lowX = p2Pos.x;
-//     highX = p1Pos.x;
-//   }
-//
-// // getting the values for bottom part of triangle and hypotenuse
-//   const c = Math.sqrt((p1Pos.x - p2Pos.x) * (p1Pos.x - p2Pos.x) + (p1Pos.y - p2Pos.y) * (p1Pos.y - p2Pos.y));
-//   const a = (highX - lowX);
-//
-//
-//
-//   if ((pinnedPos >= lowX && pinnedPos <= highX) ||
-//   (pinnedPos <= lowX && ((pinnedPos + radius) >= lowX)) ||
-//   (pinnedPos >= highX && (pinnedPos - radius <= highX))) {
-//     if (pinnedPos.y === ((pinnedPos.x * c) / a)) {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   }
-// };
+
 
 const isCollidedWith = (point, point2) => {
   // debugger;
@@ -380,21 +299,31 @@ animate = (currentTime) => {
         points[seeds.anchorValue].pinned = false;
       }
       }
-      body.updatePos(timeElapsed);
     }
+    body.updatePos(timeElapsed);
 
     for (let i = 0; i < points.length; i++) {
       points[i].solveLinkConstraints();
     }
     body.solveLinkConstraints();
+    for (let i = 0; i < points.length; i++) {
+      points[i].solveLinkConstraints();
+    }
+    body.solveLinkConstraints();
+    for (let i = 0; i < points.length; i++) {
+      points[i].solveLinkConstraints();
+    }
+    body.solveLinkConstraints();
 
-    checkCollisions(points);
+    // checkCollisions(points);
     // checkLinkCollisions(points);
 
     for (let i = 0; i < points.length; i++) {
       points[i].render();
-      body.render();
     }
+    body.render();
+    console.log("body:", body);
+    // debugger;
   }
 
   //
