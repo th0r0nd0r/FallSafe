@@ -225,7 +225,7 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
   }
   console.log("points before body:", points);
   body = new Body(points[points.length - 1], 1, 1);
-  // belayer = new Body(points[0], 1, 1);
+  belayer = new Body(points[0], 1, 1);
   console.log("points:", points);
   console.log("body:", body);
 };
@@ -274,7 +274,7 @@ animate = (currentTime) => {
   const {numPoints, anchorValue, climberMass, strengthRating} = seeds;
   const g = points[points.length - 1].aY;
   // force of fall
-  const forceIsh = 2 * climberMass * g * numPoints / 2.5;
+  const forceIsh = 2 * climberMass * g * numPoints / 2;
   // console.log("forceIsh", forceIsh);
   // force piece can take
   const compareForce = 2 * climberMass * g * anchorValue * (strengthRating / 8);
@@ -340,7 +340,7 @@ animate = (currentTime) => {
       points[i].render();
     }
     body.render();
-    // belayer.render();
+    belayer.render();
     console.log("body:", body);
     // debugger;
     ctx.beginPath();
