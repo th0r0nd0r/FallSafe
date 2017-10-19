@@ -114,8 +114,8 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
   const xModifier = 0.00125;
   const yModifier = 0.0025;
 
-  let lastX = (.5 * width);
-  let lastY = (0.4 * height);
+  let lastX = (.7 * width);
+  let lastY = (0.8 * height);
   var x = lastX;
   var y = lastY;
   let nextX = lastX;
@@ -202,13 +202,13 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
       x -= (xModifier * width);
       y -= (yModifier * height);
     } else {
-      lastX -= (xModifier * width * 4);
-      lastY -= (yModifier * height * 4);
+      lastX -= (xModifier * width * 8);
+      lastY -= (yModifier * height * 8);
       console.log("currentPoint:", newPoint, "i:", i, "lastY:", lastY);
-      nextX -= (xModifier * width * 4);
-      nextY -= (yModifier * height * 4);
-      x -= (xModifier * width * 4);
-      y -= (yModifier * height * 4);
+      nextX -= (xModifier * width * 8);
+      nextY -= (yModifier * height * 8);
+      x -= (xModifier * width * 8);
+      y -= (yModifier * height * 8);
     }
 
     if (points.length > 1) {
