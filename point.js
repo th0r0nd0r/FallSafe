@@ -102,10 +102,16 @@ class Point {
   }
 
   addLinkTo(options) {
+    let drawThis;
+    if (options.drawThis) {
+      drawThis = options.drawThis;
+    } else {
+      drawThis = true;
+    }
     const otherPoint = options.otherPoint;
     const restingDistance = options.restingDistance;
     // debugger;
-    const newLink = new Link({point1: this, point2: otherPoint, restingDistance});
+    const newLink = new Link({point1: this, point2: otherPoint, drawThis, restingDistance});
     // // console.log("newLink:", newLink);
     this.links.push(newLink);
     otherPoint.links.push(newLink);

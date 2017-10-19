@@ -18,7 +18,11 @@ class Link {
     // // // console.log("linkrestingDistance:", this.restingDistance);
     this.stiffness = options.stiffness || 1;
     this.tearDist = options.tearDist || 1000000;
-    this.drawThis = options.drawThis || true;
+    if (options.drawThis) {
+      this.drawThis = options.drawThis;
+    } else {
+      this.drawThis = true;
+    }
   }
 
   solve() {

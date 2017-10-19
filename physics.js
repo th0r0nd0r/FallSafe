@@ -7,6 +7,7 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 
+
 const width = canvas.width;
 const height = canvas.height;
 
@@ -57,6 +58,7 @@ window.showStrengthRating = showStrengthRating;
 
 let points = [];
 let body;
+let belayer;
 const seeds = new SeedData({
   numPoints: 50,
   anchorValue: 25,
@@ -212,13 +214,18 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
     }
 
     if (points.length > 1) {
-      points[i].addLinkTo({otherPoint: points[i - 1], restingDistance});
+      // if (points.length < 200) {
+      //   points[i].addLinkTo({otherPoint: points[i - 1], drawThis: false, restingDistance});
+      // } else {
+        points[i].addLinkTo({otherPoint: points[i - 1], drawThis: false, restingDistance});
+      // }
     }
     // debugger;
 
   }
   console.log("points before body:", points);
   body = new Body(points[points.length - 1], 1, 1);
+  // belayer = new Body(points[0], 1, 1);
   console.log("points:", points);
   console.log("body:", body);
 };
@@ -267,7 +274,7 @@ animate = (currentTime) => {
   const {numPoints, anchorValue, climberMass, strengthRating} = seeds;
   const g = points[points.length - 1].aY;
   // force of fall
-  const forceIsh = 2 * climberMass * g * numPoints / 2;
+  const forceIsh = 2 * climberMass * g * numPoints / 2.5;
   // console.log("forceIsh", forceIsh);
   // force piece can take
   const compareForce = 2 * climberMass * g * anchorValue * (strengthRating / 8);
@@ -333,8 +340,15 @@ animate = (currentTime) => {
       points[i].render();
     }
     body.render();
+    // belayer.render();
     console.log("body:", body);
     // debugger;
+    ctx.beginPath();
+        ctx.moveTo(820, 700);
+        ctx.lineTo(1000, 700);
+        ctx.lineTo(1000, 0);
+        ctx.lineTo(320, 0);
+        ctx.fill();
   }
 
   //
