@@ -114,8 +114,8 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
   const xModifier = 0.00125;
   const yModifier = 0.0025;
 
-  let lastX = (.5 * width);
-  let lastY = (0.4 * height);
+  let lastX = (.7 * width);
+  let lastY = (0.8 * height);
   var x = lastX;
   var y = lastY;
   let nextX = lastX;
@@ -171,6 +171,7 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
 
     if (i === 0) {
       newPoint.pinned = true;
+      newPoint.isAnchor = true;
     }
 
     if (i < anchorValue) {
@@ -186,19 +187,29 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
       newPoint.pinned = true;
       newPoint.isAnchor = true;
     } else {
-      newPoint.pinned = false;
-      newPoint.isAnchor = false;
+      // newPoint.pinned = false;
+      // newPoint.isAnchor = false;
     }
 
     points.push(newPoint);
 
-    lastX -= (xModifier * width);
-    lastY -= (yModifier * height);
-    console.log("currentPoint:", newPoint, "i:", i, "lastY:", lastY);
-    nextX -= (xModifier * width);
-    nextY -= (yModifier * height);
-    x -= (xModifier * width);
-    y -= (yModifier * height);
+    if (i > numPoints / 2) {
+      lastX -= (xModifier * width);
+      lastY -= (yModifier * height);
+      console.log("currentPoint:", newPoint, "i:", i, "lastY:", lastY);
+      nextX -= (xModifier * width);
+      nextY -= (yModifier * height);
+      x -= (xModifier * width);
+      y -= (yModifier * height);
+    } else {
+      lastX -= (xModifier * width * 8);
+      lastY -= (yModifier * height * 8);
+      console.log("currentPoint:", newPoint, "i:", i, "lastY:", lastY);
+      nextX -= (xModifier * width * 8);
+      nextY -= (yModifier * height * 8);
+      x -= (xModifier * width * 8);
+      y -= (yModifier * height * 8);
+    }
 
     if (points.length > 1) {
       points[i].addLinkTo({otherPoint: points[i - 1], restingDistance});

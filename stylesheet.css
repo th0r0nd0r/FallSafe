@@ -1,4 +1,4 @@
-body {
+.main {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -11,6 +11,18 @@ canvas {
   border:1px solid #666;
   height:700px;
   width:1000px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  order: -2;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 510px;
 }
 
 .slider-bars {
