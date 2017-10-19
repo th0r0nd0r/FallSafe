@@ -3,7 +3,7 @@ import Point from './point';
 class Body {
   constructor(pelvis, XModifier, YModifier) {
     this.pelvis = pelvis;
-    console.log("pelvis:", this.pelvis);
+    // console.log("pelvis:", this.pelvis);
     this.shoulder = new Point({
       // aY: .0001
       lastX: this.pelvis.lastX - (15 * XModifier),
