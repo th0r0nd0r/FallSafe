@@ -22,7 +22,8 @@ body {
   order: -2;
   display: flex;
   justify-content: flex-end;
-  margin-right: 510px;
+  margin-right: 600px;
+  font-family: sans-serif;
 }
 
 .slider-bars {
