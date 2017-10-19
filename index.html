@@ -8,44 +8,49 @@
       href="stylesheet.css" />
   </head>
   <body>
-    <canvas id="canvas" width="1000" height="700"></canvas>
+    <h1 class="title">
+      FallSafe
+    </h1>
+    <div class="main">
+      <canvas id="canvas" width="1000" height="700"></canvas>
 
-    <div class="slider-bars">
-      <div class="slider">
-        <label>Climber Height</label>
-        <input id="rope-length" type="range" min="2" max="60"
-        value="50"
-        onChange="javascript: showRopeLength(this.value)"></input>
-        <div id="rope-length-value">50 m</div>
+      <div class="slider-bars">
+        <div class="slider">
+          <label>Climber Height</label>
+          <input id="rope-length" type="range" min="2" max="60"
+          value="50"
+          onChange="javascript: showRopeLength(this.value)"></input>
+          <div id="rope-length-value">50 m</div>
+        </div>
+
+        <div class="slider">
+          <label>Protection Height</label>
+          <input id="pro-height" type="range" min="0" max ="60"
+          value="40"
+          onChange="javascript: showProHeight(this.value)"></input>
+          <div id="pro-height-value">40 m</div>
+        </div>
+
+        <div class="slider">
+          <label>Climber Mass</label>
+          <input id="climber-mass" type="range" min="0" max ="150"
+          value="50"
+          onChange="javascript: showClimberMass(this.value)"></input>
+          <div id="climber-mass-value">50 kg</div>
+        </div>
+
+        <div class="slider">
+          <label>Strength Rating</label>
+          <input id="strength-rating" type="range" min="0" max ="25"
+          value="12"
+          onChange="javascript: showStrengthRating(this.value)"></input>
+          <div id="strength-rating-value">12 kN</div>
+        </div>
+
       </div>
 
-      <div class="slider">
-        <label>Protection Height</label>
-        <input id="pro-height" type="range" min="0" max ="60"
-        value="40"
-        onChange="javascript: showProHeight(this.value)"></input>
-        <div id="pro-height-value">40 m</div>
-      </div>
-
-      <div class="slider">
-        <label>Climber Mass</label>
-        <input id="climber-mass" type="range" min="0" max ="150"
-        value="50"
-        onChange="javascript: showClimberMass(this.value)"></input>
-        <div id="climber-mass-value">50 kg</div>
-      </div>
-
-      <div class="slider">
-        <label>Strength Rating</label>
-        <input id="strength-rating" type="range" min="0" max ="25"
-        value="12"
-        onChange="javascript: showStrengthRating(this.value)"></input>
-        <div id="strength-rating-value">12 kN</div>
-      </div>
+      <script type="application/javascript" src="bundle.js"></script>
 
     </div>
-
-    <script type="application/javascript" src="bundle.js"></script>
-
   </body>
 </html>
