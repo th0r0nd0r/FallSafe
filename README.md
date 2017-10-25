@@ -1,6 +1,6 @@
 # FallSafe
 
-## Live Link: [FallSafe](https://th0r0nd0r.github.io/FallSafe/)
+### Live Link: [FallSafe](https://th0r0nd0r.github.io/FallSafe/)
 
 ## Overview
 
