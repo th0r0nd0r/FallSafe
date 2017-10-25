@@ -1,5 +1,8 @@
 # FallSafe
 
+## Live Link
+[FallSafe](https://th0r0nd0r.github.io/FallSafe/)
+
 ## Overview
 
 Rock climbing is a diverse sport with many distinct disciplines.  In the sport and traditional climbing styles, climbers ascend in pairs.  One climber is the belayer, holding the rope while the other climber (the leader) climbs.
@@ -21,6 +24,11 @@ Depending on several variables (e.g. fall distance, climber mass, fall factor, r
 
 FallSafe is a tool for modeling the fall forces involved in different climbing fall scenarios, and testing those forces against strength ratings for climbing protection.
 
+## Disclaimer
+
+Climb at your own risk.  This simulation does not represent the real world, and there is no guarantee of safety in any climbing scenario.
+The safety of a fall is determined by many variables not taken into account here.  These include, but are not limited to:
+Rock quality, placement quality, ledges, moisture, rock type, weather, wind, the price of bread, the brightness of your lycra, and what you had for breakfast that morning.
 
 ## Sources
 
