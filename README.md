@@ -27,7 +27,7 @@ FallSafe is a tool for modeling the fall forces involved in different climbing f
 
 Climb at your own risk.  This simulation does not represent the real world, and there is no guarantee of safety in any climbing scenario.
 The safety of a fall is determined by many variables not taken into account here.  These include, but are not limited to:
-Rock quality, placement quality, ledges, moisture, rock type, weather, wind, the price of bread, the brightness of your lycra, and what you had for breakfast.
+Rock quality, placement quality, ledges, moisture, rock type, weather, wind, the price of bread, the brightness of your lycra, and what you ate for breakfast.
 
 ## Sources
 
