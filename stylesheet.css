@@ -53,19 +53,20 @@ body {
 header {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .title {
   /*order: -2;*/
   /*display: flex;
   justify-content: flex-end;*/
-  /*margin-right: 600px;*/
+  margin-right: 600px;
   font-family: sans-serif;
 }
 
 .open-modal {
-
+  /*margin-right: 600px;*/
+  width: 100px;
 }
 
 .modal {
