@@ -638,6 +638,20 @@ animate = (currentTime) => {
 
 };
 
+function clippedBackgroundImage( ctx, img, w, h ){
+  ctx.save(); // Save the context before clipping
+  ctx.clip(); // Clip to whatever path is on the context
+
+  var imgHeight = w / img.width * img.height;
+  if (imgHeight < h){
+    ctx.fillStyle = '#000';
+    ctx.fill();
+  }
+  ctx.drawImage(img,0,0,w,imgHeight);
+
+  ctx.restore(); // Get rid of the clipping region
+}
+
 animate();
 
 
