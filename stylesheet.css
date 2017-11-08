@@ -99,7 +99,7 @@ header {
 .modal-content {
   background-color: #fefefe;
   margin: 10% auto; /* 15% from the top and centered */
-  padding: 20px;
+  /*padding: 20px;*/
   border: 1px solid #888;
   width: 60%; /* Could be more or less, depending on screen size */
   -webkit-animation-name: animatetop;
@@ -114,7 +114,18 @@ header {
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
-  padding: 0px 50px;
+  /*padding: 0px 50px;*/
+}
+
+.modal-header {
+  background-color: #3cb0fd;
+  width: 100%;
+}
+
+.modal-header-text {
+  color: white;
+  display: flex;
+  justify-content: center;
 }
 
 @-webkit-keyframes animatetop {
@@ -132,6 +143,7 @@ header {
     float: right;
     font-size: 28px;
     font-weight: bold;
+    padding-right: 12px;
 }
 
 .close:hover,
