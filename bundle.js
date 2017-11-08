@@ -606,6 +606,8 @@ animate = (currentTime) => {
     belayer.render();
     // console.log("body:", body);
     // debugger;
+    ctx.strokeStyle = '#D03901';
+    ctx.fillStyle = '	#D03901';
     ctx.beginPath();
         ctx.moveTo(820, 700);
         ctx.lineTo(1000, 700);
