@@ -65,34 +65,21 @@ header {
 }
 
 .open-modal {
-  /*margin-right: 600px;*/
-  /*width: 100px;*/
-  background: #3959b8;
-  background-image: -webkit-linear-gradient(top, #3959b8, #7481d6);
-  background-image: -moz-linear-gradient(top, #3959b8, #7481d6);
-  background-image: -ms-linear-gradient(top, #3959b8, #7481d6);
-  background-image: -o-linear-gradient(top, #3959b8, #7481d6);
-  background-image: linear-gradient(to bottom, #3959b8, #7481d6);
   -webkit-border-radius: 10;
   -moz-border-radius: 10;
   border-radius: 10px;
-  border: none;
   font-family: Arial;
   color: #ffffff;
   font-size: 20px;
-  padding: 0px 40px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  background: #3498db;
+  padding: 10px 20px 10px 20px;
   text-decoration: none;
+  border: none;
+  
 }
 
 .open-modal:hover {
-  background: #3a0fc4;
-  background-image: -webkit-linear-gradient(top, #3a0fc4, #7b4fdb);
-  background-image: -moz-linear-gradient(top, #3a0fc4, #7b4fdb);
-  background-image: -ms-linear-gradient(top, #3a0fc4, #7b4fdb);
-  background-image: -o-linear-gradient(top, #3a0fc4, #7b4fdb);
-  background-image: linear-gradient(to bottom, #3a0fc4, #7b4fdb);
+  background: #3cb0fd;
   text-decoration: none;
 }
 
