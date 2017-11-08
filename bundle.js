@@ -916,6 +916,7 @@ class Body {
 /* 6 */
 /***/ (function(module, exports) {
 
+const modal = document.getElementById("modal");
 
 
 /***/ })
