@@ -318,7 +318,7 @@ animate = (currentTime) => {
       // // console.log("climberHeight", climberHeight);
       // // console.log("pHeight", pHeight);
       // // console.log("fallDist", fallDist);
-      const isCaught = Boolean((climberHeight > (pHeight + fallDist)) || (climberHeight > height));
+      const isCaught = Boolean((climberHeight >= (pHeight + fallDist) * .95) || (climberHeight > height));
       // // console.log("isCaught", isCaught);
       if (isCaught) {
         if (forceIsh <= compareForce) {
@@ -364,6 +364,7 @@ animate = (currentTime) => {
         ctx.lineTo(1000, 0);
         ctx.lineTo(320, 0);
         clippedBackgroundImage(ctx, rock, rock.width / 2, rock.height / 2);
+        // ctx.fill();
   }
 
   //
@@ -388,18 +389,18 @@ animate = (currentTime) => {
 
 };
 
-function clippedBackgroundImage( ctx, img, w, h ){
-  ctx.save(); // Save the context before clipping
-  ctx.clip(); // Clip to whatever path is on the context
+function clippedBackgroundImage( ctxt, img, w, h ){
+  ctxt.save(); // Save the context before clipping
+  ctxt.clip(); // Clip to whatever path is on the context
 
   var imgHeight = w / img.width * img.height;
   if (imgHeight < h){
-    ctx.fillStyle = '#000';
-    ctx.fill();
+    ctxt.fillStyle = '#000';
+    ctxt.fill();
   }
-  ctx.drawImage(img,0,0,w,imgHeight);
+  ctxt.drawImage(img,0,0,w,imgHeight);
 
-  ctx.restore(); // Get rid of the clipping region
+  ctxt.restore(); // Get rid of the clipping region
 }
 
 animate();
