@@ -122,10 +122,30 @@ header {
 
 ul {
   padding: 0;
+  margin-top: 0;
+}
+
+h4 {
+  margin-bottom: 0;
+  margin-top: 40px;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+.intro {
+  font-size: 14pt;
+  font-style: italic;
+}
+
+.outro {
+  font-style: italic;
 }
 
 .sub-list {
   padding-left: 30px;
+  margin-top: 10px;
 }
 
 .modal-header {
