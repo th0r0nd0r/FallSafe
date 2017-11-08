@@ -355,6 +355,17 @@ strengthRating.addEventListener("change", (e) => {
   animate();
 });
 
+const bodyMass = document.getElementById("climber-mass");
+bodyMass.addEventListener("change", (e) => {
+  seeds.climberMass = parseInt(e.target.value);
+  if (req) {
+    cancelAnimationFrame(req);
+  }
+  loops = 0;
+  startTime = undefined;
+  seedPoints(seeds.numPoints, seeds.anchorValue, seeds.climberMass);
+  animate();
+});
 
 
 
