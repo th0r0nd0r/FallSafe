@@ -57,6 +57,15 @@ header {
     width: 80%; /* Could be more or less, depending on screen size */
 }
 
+.modal-info {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  
+}
+
 .close {
     color: #aaa;
     float: right;
