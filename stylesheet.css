@@ -101,20 +101,30 @@ header {
   margin: 10% auto; /* 15% from the top and centered */
   /*padding: 20px;*/
   border: 1px solid #888;
-  width: 60%; /* Could be more or less, depending on screen size */
+  width: 70%; /* Could be more or less, depending on screen size */
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
   animation-duration: 0.4s
 }
 
-.modal-info {
+.modal-body {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
-  /*padding: 0px 50px;*/
+  padding: 0px 30px;
+  /*padding-right: 30px;*/
+  color: #34383f;
+}
+
+ul {
+  padding: 0;
+}
+
+.sub-list {
+  padding-left: 30px;
 }
 
 .modal-header {
