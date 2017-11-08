@@ -76,6 +76,7 @@ header {
   margin: 18px 0px;
   text-decoration: none;
   border: none;
+  margin-left: 15px;
 }
 
 .open-modal:hover {
