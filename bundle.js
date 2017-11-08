@@ -568,7 +568,7 @@ animate = (currentTime) => {
       // // console.log("climberHeight", climberHeight);
       // // console.log("pHeight", pHeight);
       // // console.log("fallDist", fallDist);
-      const isCaught = Boolean(climberHeight > (pHeight + fallDist));
+      const isCaught = Boolean((climberHeight > (pHeight + fallDist)) || (climberHeight > height));
       // // console.log("isCaught", isCaught);
       if (isCaught) {
         if (forceIsh <= compareForce) {
@@ -576,7 +576,7 @@ animate = (currentTime) => {
             points[j].mass = 10;
             points[j].aY = 0;
         }
-      } else if (climberHeight > points[points.length - 2].position.y){
+      } else {
         points[seeds.anchorValue].pinned = false;
       }
       }
