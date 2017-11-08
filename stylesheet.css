@@ -18,12 +18,22 @@ body {
   flex-direction: column;
 }
 
-.title {
-  order: -2;
+header {
   display: flex;
-  justify-content: flex-end;
-  margin-right: 600px;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.title {
+  /*order: -2;*/
+  /*display: flex;
+  justify-content: flex-end;*/
+  /*margin-right: 600px;*/
   font-family: sans-serif;
+}
+
+.open-modal {
+  
 }
 
 .slider-bars {
