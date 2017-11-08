@@ -268,6 +268,8 @@ let lastTime;
 let timeElapsed = 0;
 let req;
 let animate;
+let rock = new Image;
+rock.src = "./rockedit.jpg";
 
 
 const requestAnimationFrame = window.requestAnimationFrame ||
@@ -613,7 +615,7 @@ animate = (currentTime) => {
         ctx.lineTo(1000, 700);
         ctx.lineTo(1000, 0);
         ctx.lineTo(320, 0);
-        ctx.fill();
+        clippedBackgroundImage(ctx, rock, rock.width / 2, rock.height / 2);
   }
 
   //
