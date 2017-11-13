@@ -18,8 +18,6 @@ let req;
 let animate;
 let rock = new Image;
 rock.src = "./rockedit.jpg";
-let fieri = new Image;
-fieri.src = "./fieri.jpg";
 
 
 const requestAnimationFrame = window.requestAnimationFrame ||
@@ -365,7 +363,7 @@ animate = (currentTime) => {
         ctx.lineTo(1000, 700);
         ctx.lineTo(1000, 0);
         ctx.lineTo(320, 0);
-        clippedBackgroundImage(ctx, fieri, rock.width, rock.height);
+        clippedBackgroundImage(ctx, rock, rock.width / 2, rock.height / 2);
         // ctx.fill();
   }
 
