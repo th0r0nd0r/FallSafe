@@ -38,7 +38,7 @@ ol, ul {
 }
 
 canvas {
-  display: inline-block;
+  display: block;
   margin:10px;
   border:1px solid #666;
   height:700px;
