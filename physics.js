@@ -3,7 +3,6 @@ import SeedData from './seed_data';
 import Body from './body';
 
 const canvas = document.getElementById("canvas");
-// // // console.log("canvas",canvas);
 const ctx = canvas.getContext("2d");
 
 
@@ -73,7 +72,6 @@ ropeLength.addEventListener("change", (e) => {
   loops = 0;
   startTime = undefined;
   seedPoints(seeds.numPoints, seeds.anchorValue, seeds.climberMass);
-  // // console.log("seeded");
   animate();
 });
 
@@ -86,7 +84,6 @@ proHeight.addEventListener("change", (e) => {
   loops = 0;
   startTime = undefined;
   seedPoints(seeds.numPoints, seeds.anchorValue, seeds.climberMass);
-  // // console.log("seeded");
   animate();
 });
 
@@ -99,7 +96,6 @@ strengthRating.addEventListener("change", (e) => {
   loops = 0;
   startTime = undefined;
   seedPoints(seeds.numPoints, seeds.anchorValue, seeds.climberMass);
-  // // console.log("seeded");
   animate();
 });
 
@@ -107,7 +103,6 @@ strengthRating.addEventListener("change", (e) => {
 
 
 const seedPoints = (numPoints, anchorValue, cMass) => {
-  // // console.log("numPoints", numPoints);
   ctx.clearRect(0,0,width, height);
   points = [];
 
@@ -126,16 +121,11 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
 
   const restingDistance = Math.sqrt((yModifier * height) * (yModifier * height) + (xModifier * width) * (xModifier * width));
   for (let i = 0; i < numPoints; i++) {
-    // // console.log("x, y:", x, y);
-
-
 
     const position = {
       x,
       y
     };
-    // Object.freeze(position);
-    // // console.log("position:", position);
     const pointObj = {
       lastX,
       lastY,
@@ -148,11 +138,9 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
       mass,
       radius
     };
-    // // // console.log("pointObj:", pointObj);
 
     Object.freeze(pointObj);
     const newPoint = new Point(pointObj);
-    // // console.log("newPoint", newPoint);
 
 
   // puts pro at half of rope length
@@ -214,7 +202,6 @@ const seedPoints = (numPoints, anchorValue, cMass) => {
     if (points.length > 1) {
       points[i].addLinkTo({otherPoint: points[i - 1], restingDistance});
     }
-    // debugger;
 
   }
   console.log("points before body:", points);
@@ -230,7 +217,6 @@ const checkCollisions = (points) => {
       const pt2 = points[j];
 
       if ((pt1 !== pt2) && isCollidedWith(pt1, pt2) && (pt1.pinned || pt2.pinned)) {
-        // // // console.log("collision?", isCollidedWith(pt1, pt2));
         pt1.collideWith(pt2);
         pt2.collideWith(pt1);
       }
@@ -241,7 +227,6 @@ const checkCollisions = (points) => {
 
 
 const isCollidedWith = (point, point2) => {
-  // debugger;
   const pos1 = {x: point.position.x, y: point.position.y};
   const pos2 = {x: point2.position.x, y: point2.position.y};
   const deltaX = ((pos1.x - pos2.x) * (pos1.x - pos2.x));
@@ -258,7 +243,6 @@ const isCollidedWith = (point, point2) => {
 let loops = 0;
 
 seedPoints(seeds.numPoints, seeds.anchorValue, seeds.climberMass);
-// // console.log("initial seed");
 const climberStartHeight = points[points.length - 1].position.y;
 
 
@@ -268,38 +252,26 @@ animate = (currentTime) => {
   const g = points[points.length - 1].aY;
   // force of fall
   const forceIsh = 2 * climberMass * g * numPoints / 2;
-  // console.log("forceIsh", forceIsh);
   // force piece can take
   const compareForce = 2 * climberMass * g * anchorValue * (strengthRating / 8);
-  // console.log("compareForce", compareForce);
 
   loops++;
-  // // // console.log("loops", loops);
-  // // // console.log("animate");
   if (!startTime) {
     startTime = currentTime;
     lastTime = currentTime;
   } else {
-    // // console.log("currentTime", currentTime);
     timeElapsed = currentTime - lastTime;
-    // // console.log("timeElapsed", timeElapsed);
     lastTime = currentTime;
 
 
     ctx.clearRect(0,0,width, height);
     for (let i = 0; i < points.length; i++) {
       points[i].updatePos(timeElapsed);
-      // console.log("climberStartHeight", climberStartHeight);
       const climberHeight = points[points.length - 1].position.y;
-      // console.log("points", points);
-      // console.log("seeds", seeds);
       const pHeight = points[seeds.anchorValue].position.y;
       const fallDist = (pHeight - climberStartHeight);
-      // console.log("climberHeight", climberHeight);
-      // console.log("pHeight", pHeight);
-      // console.log("fallDist", fallDist);
       const isCaught = Boolean(climberHeight > (pHeight + fallDist));
-      // console.log("isCaught", isCaught);
+
       if (isCaught) {
         if (forceIsh <= compareForce) {
           for (let j = 0; j < seeds.anchorValue; j++) {
@@ -326,15 +298,10 @@ animate = (currentTime) => {
     }
     body.solveLinkConstraints();
 
-    // checkCollisions(points);
-    // checkLinkCollisions(points);
-
     for (let i = 0; i < points.length; i++) {
       points[i].render();
     }
     body.render();
-    console.log("body:", body);
-    // debugger;
   }
 
   //

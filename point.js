@@ -1,7 +1,6 @@
 import Link from './link';
 
 const canvas = document.getElementById("canvas");
-// // // console.log("canvas",canvas);
 const ctx = canvas.getContext("2d");
 
 class Point {
